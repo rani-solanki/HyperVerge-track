@@ -6,6 +6,7 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require("config");
+const nodemailer = require("nodemailer")
 
 // user Authrigation
 router.get('/auth', auth, async(req,res)=>{
@@ -49,13 +50,13 @@ router.post('/login', valid,auth,async (req, res) => {
                 res.json({ token });
             });
     }
-    catch (err) {
+    catch(err) {
         console.log(err)
         return res.status(500).send('server error')
     }
 })
 
-// forget Password;
+// reset Password;
 router.post("/resetPassword",[
         check("email", "please enter a valid email").not().isEmpty()],
     async (req, res) => {
@@ -70,31 +71,92 @@ router.post("/resetPassword",[
                 }
                 const token = buffer.toString("hex");
                 const user = await User.findOne({ email: req.body.email });
-                console.log(user);
+
                 if (!user) {
                     return res
                         .status(500)
-                        .json({ error: "user is not exit"});
+                        .json({ error: "user is not exit" });
                 }
                 user.resetToken = token;
-                user.expaireToken = Date.now() + 360000;
-                const result = await user.save();
-                console.log("result")
-                if (result) {
-                    transporter.sendMail({
-                        to: user.email,
-                        from: "no-replay@insta.com",
-                        subject: "Password Reset",
-                        html: `<p> you requested for password reset</p>
+                user.exprieToken = Date.now() + 360000;
+
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: "rani19@navgurukul.org",
+                        pass: "navgurukul@19"
+                    }
+                });
+
+                transporter.verify(function (error, success) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log("Server is ready to take our messages!");
+                    }
+                });
+
+                const mail = {
+                    to: user.email,
+                    from: "no-replay@insta.com",
+                    subject: "Password Reset",
+                    html: `<p> you requested for password reset</p>
             <h5>click on this <a href = "http://localhost:3000/${token}">link</a> to reset the password`
-                    });
-                    console.log("finally")
-                    res.json({ messege: "check your email", token });
                 }
-            });
+
+                transporter.sendMail(mail, (err, data) => {
+                    if (err) {
+                        console.log(err)
+                        res.json({
+                            status: 'fail'
+                        })
+                    } else {
+                        res.json({ messege: "check your email", token });
+                    }
+                })
+            })
+
         } catch (err) {
             console.log(err);
             res.status(500).send("server error");
+        }
+    }
+);
+
+router.post("/newPassword",[
+    check("password", "please enter a password").not().isEmpty()
+],
+    async (req, res)=>{
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) { return res.status(400).json({ errors: errors }) }
+        try {
+            const newPassword = req.body.password;
+            // update the token 
+            const updatedToken = "d23aeca538ca1aa12787012f39a0b1feb30b44cd567f23549172747eaf987947";
+            const user = await User.findOne({ resetToken: updatedToken, exprieToken:{$gt:Date.now()}});
+
+            if (!user) {
+                return res.status(500).json({ error: " please tried to next: session expired" });
+            }
+
+            // salt and hash password
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(newPassword, salt);
+
+            // update the user information
+            user.resetToken = undefined;
+            user.expireToken = undefined;
+
+            // save the user
+            const updateUser = await user.save();
+
+            if (updateUser) {
+                return res.status(200).json({ message: "reset password is succesful"})
+            }
+        } catch (err) {
+            console.log(err);
+            return res.status(500).send("server error");
         }
     }
 );

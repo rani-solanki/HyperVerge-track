@@ -23,6 +23,7 @@ describe('insert', () => {
         // await db.close();
     });
 
+    // user signup 
     it('should insert a doc into collection', async () => {
         const users = db.collection('users');
 

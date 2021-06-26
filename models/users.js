@@ -4,13 +4,13 @@ const userschema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email:{
-        type:String,
+    email: {
+        type: String,
         trim: true,
         required: true,
         Unique: true,
         lowercase: true,
-        index:true
+        index: true
     },
     password: {
         type: String,
@@ -19,18 +19,14 @@ const userschema = new mongoose.Schema({
     },
     isAdmin: {
         type: Boolean,
-        default:false
+        default: false
     },
-    resetToken: {
-        typr:String
+    resetToken: String,
+    exprieToken: Date
     },
-    expaireToken: {
-        type:Date
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    {
+        timestamps: true
     }
-})
+)
 const User = mongoose.model('Users', userschema)
 module.exports = User
