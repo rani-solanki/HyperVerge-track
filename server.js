@@ -11,8 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/users', require('./router/api/users'));
 app.use('/api/auth', require('./router/api/auth'));
-app.use('/api/bus', require('./router/api/bus'));
-
+// app.use('/api/bus', require('./router/api/bus'));
 
 const PORT = process.env.PORT || 1900;
 app.listen(PORT, () => {
