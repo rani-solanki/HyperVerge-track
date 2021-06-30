@@ -5,7 +5,6 @@ const db = config.get("mongoURL");
 const dbConnect = async () => {
     try {
         await mongoose.connect(db, {
-            
             // To use the new parser, pass option
             useNewUrlParser: true,
             useUnifiedTopology: true,

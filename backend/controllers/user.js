@@ -3,6 +3,7 @@ const User = require('../models/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require("config");
+const {errorNotification} = require('./errorHandler');
 
 //@route  POST api/users/signup
 //desc    register user
@@ -10,14 +11,17 @@ const config = require("config");
 
 exports.userSignup = async (req,res,next)=>{
     const error = validationResult(req.body)
-    if (!error.isEmpty()) { return res.status(400).json({ error: error.array() }) }
+    if (!error.isEmpty()) {
+        // next(error)
+        return res.status(400).json({ error: error.array() })
+    }
     const { name, email, password, isAdmin } = req.body;
     try {
         let user = await User.findOne({ email });
         if (user) {
             return res.status(404).send({ "error": "user already exit" })
         }
-        user = new User(req.body)
+        // user = new User(req.body)
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
         await user.save();
@@ -33,7 +37,7 @@ exports.userSignup = async (req,res,next)=>{
         await user.save();
     }
     catch (err) {
-        console.log(err)
+        next(err)
         return res.status(500).json(err)
     }
 }

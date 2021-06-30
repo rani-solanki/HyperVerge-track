@@ -3,7 +3,6 @@ const router = express.Router();
 const { check} = require('express-validator');
 const userSignupController = require('../../controllers/user');
 
-
 // user signup;
 router.post('/signup',
     [
@@ -19,7 +18,7 @@ router.post('/signup',
     userSignupController.userSignup,
     async (req, res) => {
     })
-
+    
 module.exports = router;
 
 
