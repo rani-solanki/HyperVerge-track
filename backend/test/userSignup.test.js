@@ -7,7 +7,7 @@ const { resetPassword } = require('../controllers/resetPassword');
 const Server = require('../server')
 
 // Pass supertest agent for each test
-const agent = request.agent(Server);
+// const agent = request.agent(Server);
 
 console.log(db)
 // Setup connection to the database
@@ -15,9 +15,7 @@ beforeAll(async () => await db.connect());
 beforeEach(async () => await db.clear());
 afterAll(async () => await db.close());
 
-
 // unit testing 
-
 // user signup
 
 it('it should create a new user', async () => {
@@ -81,7 +79,6 @@ it("user should be create new user", async () => {
 })
 
 // user login 
-
 it("user should be able to login", async () => {
     const res = await request(Server).post('/api/auth/login').send({
         name: "Gyandeep",

@@ -11,17 +11,21 @@ const {errorNotification} = require('./errorHandler');
 
 exports.userSignup = async (req, res, next) => {
     const error = validationResult(req.body)
+
     if (!error.isEmpty()) {
+        return next(error)
         return res.status(400).json({ error: error.array() })
     }
     const { name, email, password, isAdmin } = req.body;
     try {
         let user = await User.findOne({ email });
-        console.log("user.password",user)
-        if (user){
-            return res.status(404).send({ "error": "user already exit" })
+        if (user) {
+            return next({
+                status: 400,
+                errors: "User is already exists"
+            })
         }
-        // user = new User(req.body)
+        user = new User(req.body)
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
         await user.save();
@@ -37,11 +41,10 @@ exports.userSignup = async (req, res, next) => {
         await user.save();
     }
     catch (err) {
-        console.log(err,res)
+        next(err)
         return res.status(500).json({ "msg": "server error" })
     }
 }
-
 
 
 
