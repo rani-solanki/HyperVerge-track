@@ -14,7 +14,7 @@ exports.userSignup = async (req, res, next) => {
 
     if (!error.isEmpty()) {
         return next(error)
-        return res.status(400).json({ error: error.array() })
+        // return res.status(400).json({ error: error.array() })
     }
     const { name, email, password, isAdmin } = req.body;
     try {
