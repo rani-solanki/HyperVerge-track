@@ -15,9 +15,9 @@ exports.loginuser = async (req, res, next) => {
     }
     // Done validation 
     const { email, password } = req.body;
-
     try {
         let user = await User.findOne({ email });
+        console.log(user)
         if (!user) {
             return res.status(400).json({ errors: [{ msg: "invalid Email or passward" }] })
         }

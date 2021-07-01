@@ -9,23 +9,23 @@ const {errorNotification} = require('./errorHandler');
 //desc    register user
 //access  public
 
-exports.userSignup = async (req,res,next)=>{
+exports.userSignup = async (req, res, next) => {
     const error = validationResult(req.body)
     if (!error.isEmpty()) {
-        // next(error)
         return res.status(400).json({ error: error.array() })
     }
     const { name, email, password, isAdmin } = req.body;
     try {
         let user = await User.findOne({ email });
-        if (user) {
+        console.log("user.password",user)
+        if (user){
             return res.status(404).send({ "error": "user already exit" })
         }
         // user = new User(req.body)
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
         await user.save();
-
+        
         const payload = {
             user: { id: user.id }
         }
@@ -37,8 +37,8 @@ exports.userSignup = async (req,res,next)=>{
         await user.save();
     }
     catch (err) {
-        next(err)
-        return res.status(500).json(err)
+        console.log(err,res)
+        return res.status(500).json({ "msg": "server error" })
     }
 }
 

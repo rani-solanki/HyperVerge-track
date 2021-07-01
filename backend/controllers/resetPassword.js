@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer")
 const crypto = require('crypto');
 
-
 //@route  POST api/auth/resetPassword
 //desc    reset password
 //access  private
@@ -66,29 +65,28 @@ exports.resetPassword = async (req, res, next) => {
 //desc    add new password
 //access  private
 
-exports.newPassword = async (req, res, next) => {
+exports.newPassword = async(req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors });
     }
     try {
-        const newPassword = req.body.password;
-        const sentToken = req.body.token;
-        const user = await User.findOne({ resetToken: sentToken });
-        console.log(user);
+        const newPassword = req.body.password
+        const sentToken = req.body.token
+        const user = User.findOne({ resetToken: sentToken, exprieToken: { $gt: Date.now() }})
+        console.log(user)
         if (!user) {
-            return res.status(500).json({ error: "try again session expired" });
+            return res.status(422).json({ error: "Try again session expired" })
         }
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(newPassword, salt);
-        user.resetToken = undefined;
-        user.expireToken = undefined;
-        const savedUser = await user.save();
-        if (savedUser) {
-            res.json({ message: "password updated success" });
-        }
+        bcrypt.hash(newPassword, 12).then(hashedpassword => {
+            user.password = hashedpassword
+            user.resetToken = undefined
+            user.expireToken = undefined
+        })
+        await user.save()
+        return res.json({ message: "password updated success" })
+        
     } catch (err) {
-        console.log(err);
-        res.status(500).send("server error");
+        console.log("server error")
     }
 }

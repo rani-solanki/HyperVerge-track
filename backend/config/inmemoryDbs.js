@@ -21,7 +21,7 @@ const DBconnect = async () => {
 };
 
 // Remove and close the database and server.
-const close = async () => {
+const Dbclose = async () => {
     await mongoose.disconnect();
     await mongoServer.stop();
 };
