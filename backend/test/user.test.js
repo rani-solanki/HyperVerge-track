@@ -4,10 +4,10 @@ const db = require('../config/db');
 const { userSignup } = require('../controllers/user')
 const { loginuser } = require('../controllers/auth')
 const { resetPassword } = require('../controllers/resetPassword');
-const Server = require('../server')
+const App = require('../server')
 
 // Pass supertest agent for each test
-// const agent = request.agent(Server);
+const agent = request.agent(App);
 
 console.log(db)
 // Setup connection to the database
@@ -24,7 +24,7 @@ it('it should create a new user', async () => {
             "name": "Rani Solanki",
             "email": "rani19@navgurukul.org",
             "password": "7234582651",
-            "isAdmin": true
+            "isAdmin": false
         }
     }
     try {
@@ -51,8 +51,8 @@ it('it should be user signin', async () => {
     }
 })
 
-// // resetpassword
-it('it should be user signin', async () => {
+// // confirm email
+it('it should be confirm email', async () => {
     let bodyData = {
         body: {
             "email": "rani19@navgurukul.org"
@@ -68,26 +68,25 @@ it('it should be user signin', async () => {
 
 // api testing 
 it("user should be create new user", async () => {
-    const res = await request(Server).post('/api/users/signup').send({
+    const res = await agent.post("/api/users/signup").send({
             name: "Gyandeep",
             email: "gyandeep5364@gmail.com",
             password: "12345677346",
             isAdmin: false
         })
     expect(res.statusCode).toBe(200)
-    console.log(err.statusCode)
+    console.log(res.statusCode)
 })
 
 // user login 
 it("user should be able to login", async () => {
-    const res = await request(Server).post('/api/auth/login').send({
-        name: "Gyandeep",
+    const res = await agent.post('/api/auth/login').send({
+
         email: "gyandeep5364@gmail.com",
-        password: "12345677346",
-        isAdmin: false
+        password: "12345677346"
     })
     expect(res.statusCode).toBe(200)
-    console.log(err.statusCode)
+    console.log(res.statusCode)
 })
 
 

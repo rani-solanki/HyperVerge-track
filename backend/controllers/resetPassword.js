@@ -14,7 +14,7 @@ exports.resetPassword = async (req, res, next) => {
         return res.status(400).json({ errors: errors });
     }
     try {
-        crypto.randomBytes(32, async (err, buffer) => {
+        crypto.randomBytes(32, async (err, res,buffer) => {
             if (err) { console.log(err); }
 
             const token = buffer.toString("hex");
@@ -59,7 +59,6 @@ exports.resetPassword = async (req, res, next) => {
         return res.status(500).send("server error");
     }
 }
-
 
 //@route  POST api/auth/newPassword
 //desc    add new password

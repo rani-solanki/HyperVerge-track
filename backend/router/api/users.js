@@ -11,10 +11,8 @@ router.post('/signup',
         check('email', 'please inclde unique and valid email')
             .isEmail(),
         check('password', 'please enter the sward passward')
-            .isLength({ min: 6 }),
-        check('isAdmin', 'please confirm isAdmin ')
-            .not().isBoolean(),
-],
+            .isLength({ min: 6 })    
+    ],    
     userSignupController.userSignup,
     async (req, res) => {
     })
