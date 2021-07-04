@@ -11,8 +11,7 @@ beforeAll(async () => await db.connect());
 beforeEach(async () => await db.clear());
 afterAll(async () => await db.close());
 
-
-it('it should create a new user', async () => {
+it('it should create a new user', async () =>{
     let bodyData = {
         body: {
             "name": "salomi",

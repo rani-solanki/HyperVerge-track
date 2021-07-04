@@ -20,7 +20,7 @@ router.post('/login',
         check('email', 'please inclde unique and valid email').isEmail(),
         check('password', 'please enter the passward').isLength({ min: 6 })
     ],
-    auth, adminLoginController.adminLogin , function(req, res){
+    adminLoginController.adminLogin , function(req, res){
 })
     
 module.exports = router;

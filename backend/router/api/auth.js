@@ -22,7 +22,7 @@ router.post('/login',
         check('email', 'please inclde unique and valid email').isEmail(),
         check('password', 'please enter the passward').isLength({ min: 6 })
     ],
-    auth,userLoginController.loginuser,async (req, res) => {
+    userLoginController.loginuser,async (req, res) => {
 })
 
 // reset Password;

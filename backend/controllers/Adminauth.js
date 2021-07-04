@@ -8,16 +8,28 @@ const config = require("config");
 //desc    admin login
 //access  private
 
-exports.adminLogin = async (req, res, next) => {
+const validations = (req) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return errors
+    }
+    else {
+        return false
+    }
+}
+
+exports.adminLogin = async (req, res, next) => {
+    const error = validations(req);
+    if (error) {
+        next(error)
+        return res.status(400).json({ errors: errors.array()});
     }
     // Done validation 
-    const { email, password } = req.body;
+    const { email, password} = req.body;
     try {
-        let admin = await User.findOne({ email });
+        let admin = await User.findOne({email});
         console.log(admin)
+
         if (!admin) {
             return res.status(400).json({ errors: [{ msg: "invalid Email or passward" }] })
         }

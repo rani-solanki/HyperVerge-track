@@ -21,8 +21,8 @@ afterAll(async () => await db.close());
 it('it should create a new user', async () => {
     let bodyData = {
         body: {
-            "name": "Rani Solanki",
-            "email": "rani19@navgurukul.org",
+            "Name": "Rani Solanki",
+            "Email": "rani19@navgurukul.org",
             "password": "7234582651",
             "isAdmin": false
         }
@@ -34,6 +34,10 @@ it('it should create a new user', async () => {
         console.log(err)
     }
 })
+
+// it("user validation", async () => {
+    
+// })
 
 // usersign 
 it('it should be user signin', async () => {
@@ -52,19 +56,19 @@ it('it should be user signin', async () => {
 })
 
 // // confirm email
-it('it should be confirm email', async () => {
-    let bodyData = {
-        body: {
-            "email": "rani19@navgurukul.org"
-        }
-    }
-    try {
-        const res = await resetPassword(bodyData)
-        expect(res.statusCode).toBe(200)
-    } catch (err) {
-        console.log("res useet password failed", err)
-    }
-})
+// it('it should be confirm email', async () => {
+//     let bodyData = {
+//         body: {
+//             "email": "rani19@navgurukul.org"
+//         }
+//     }
+//     try {
+//         const res = await resetPassword(bodyData)
+//         expect(res.statusCode).toBe(200)
+//     } catch (err) {
+//         console.log("res useet password failed", err)
+//     }
+// })
 
 // api testing 
 it("user should be create new user", async () => {

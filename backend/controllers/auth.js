@@ -7,13 +7,24 @@ const config = require("config");
 //@route  POST api/auth/login
 //desc    user login
 //access  private
-
-exports.loginuser = async (req, res, next) => {
+const validations = (req) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return errors
     }
-    // Done validation 
+    else {
+        return false
+    }
+}
+
+exports.loginuser = async (req, res, next) => {   
+     // Done validation 
+    const error = validations(req);
+    if (error) {
+        next(error)
+        return res.status(400).json({"validations error":error});
+    }
+    
     const { email, password } = req.body;
     try {
         let user = await User.findOne({ email });
@@ -37,5 +48,6 @@ exports.loginuser = async (req, res, next) => {
         return res.status(500).send('server error')
     }
 }
+
 
 

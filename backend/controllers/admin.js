@@ -1,48 +1,44 @@
-const { validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const config = require("config");
 
 //@route  POST api/Admin/signup
 //desc    register admin
 //access  public
 
+const validations = (req) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return errors
+    }
+    else {
+        return false
+    }
+}
+
 exports.adminSignup = async (req, res, next) => {
-    const error = validationResult(req.body)
-    if (!error.isEmpty()) {
-        return next(error)
-        // return res.status(400).json({ error: error.array() })
+    const error = validations(req)
+    if (error) {
+        next(error)
+        return res.json(error)
     }
     const { name, email, password, isAdmin } = req.body;
     try {
         let admin = await User.findOne({ email });
         if (admin) {
-            return next({
-                status: 400,
-                errors: "admin is already exists"
-            })
+            return res.json({ errors: "admin is already exists"})
         }
         admin = new User(req.body)
         const salt = await bcrypt.genSalt(10);
         admin.password = await bcrypt.hash(password, salt);
         await admin.save();
-
-        const payload = {
-            admin: { id: admin.id }
-        }
-        jwt.sign(payload,
-            config.jwtSecret, (err, token) => {
-                if (err) throw err;
-                console.log(token)
-                return res.json({ token });
-            });
-        await admin.save();
+        
+        return res.status(200).json("admin registered")
     }
     catch (err) {
         return next({
-            status: 400,
-            errors: "admin is already exists"
+            status: 500,
+            errors: "server error"
         })
     }
 }

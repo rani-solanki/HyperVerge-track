@@ -8,15 +8,18 @@ const crypto = require('crypto');
 //desc    reset password
 //access  private
 
+// forgot Password 
 exports.resetPassword = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors });
     }
     try {
-        crypto.randomBytes(32, async (err, res,buffer) => {
-            if (err) { console.log(err); }
-
+        crypto.randomBytes(32, async (err,buffer) => {
+            if (err) {
+                console.log(err);
+            }
+            // console.log(res,buffer)
             const token = buffer.toString("hex");
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
@@ -69,23 +72,29 @@ exports.newPassword = async(req, res, next) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors });
     }
+    
     try {
         const newPassword = req.body.password
         const sentToken = req.body.token
-        const user = User.findOne({ resetToken: sentToken, exprieToken: { $gt: Date.now() }})
+        console.log(sentToken)
+        const user = User.findOne({ resetToken: sentToken })
         console.log(user)
         if (!user) {
             return res.status(422).json({ error: "Try again session expired" })
         }
-        bcrypt.hash(newPassword, 12).then(hashedpassword => {
-            user.password = hashedpassword
-            user.resetToken = undefined
-            user.expireToken = undefined
-        })
-        await user.save()
-        return res.json({ message: "password updated success" })
-        
+        const salt = bcrypt.genSalt(10)
+        user.password = bcrypt.hash(newPassword, salt)
+        user.resetToken = undefined
+        user.expireToken = undefined
+
+        console.log(user)
+        const savedUser = await user.save();
+        if (savedUser) {
+            return res.json({ message: "password updated success" })
+        }
+
     } catch (err) {
-        console.log("server error")
+        console.log(err)
+        return res.status(500).json("server error")
     }
 }
