@@ -1,11 +1,13 @@
+const mongoose = require('mongoose');
+
 const busSchema = new mongoose.Schema({
     busName: {
         type: String,
         required: true
     },
     agency: {
-        type: Schema.Types.ObjectId,
-        ref: Agency
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Agency'
     },
     vehicleNo: {
         type: String,
@@ -13,7 +15,7 @@ const busSchema = new mongoose.Schema({
         required: true
     },
     seats: [[{
-        type: string,
+        type: String,
     }]],
     busType: {
         type: String,
@@ -27,10 +29,11 @@ const busSchema = new mongoose.Schema({
         default: 'sleeper',
         required: true
     },
-    busStaff: [{
-        type: String,
+    busStaff: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Staffs',
         required: true
-    }],
+    },
     policy: {
         type: String,
         required: true
@@ -40,17 +43,17 @@ const busSchema = new mongoose.Schema({
     }],
     from: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Location,
+        ref:'Location',
         index: true,
         required: true
     },
-    to: {
+    to:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: Location,
+        ref: 'Location',
         required: true,
         index: true
     },
-    arrivalTime: {
+    arrivalTime:{
         type: Date,
         default: Date.now,
         required: true
@@ -67,27 +70,6 @@ const busSchema = new mongoose.Schema({
 )
 
 const bus = mongoose.model('Buses', busSchema)
-module.exports = bus
+module.exports = bus;
 
-a = {
-    "busName": "Booze Bus",
-    "agency" : "VRL travels",
-    "vehicleNo":"375",
-    "seats": [
-        ["1A", "1B", "1C", "1D"],
-        ["2A","2B","2C","2D"],
-        ["3A", "3B","3C","3D"],
-        ["4A", "4B", "4C", "4D"],
-        ["5A", "5B", "5C", "5D"]
-    ],
-    "busType":["Ac","nonAc"],
-    "seatCategory": ['sleeper', 'semi sleeper'],
-    "busStaff":" ",
-    "policy":" ",
-    "image":" ",
-    "from":" ",
-    "to":" ",
-    "busName":" ",
-    "arrivalTime":""
-    "departureTime":" "
-}
+

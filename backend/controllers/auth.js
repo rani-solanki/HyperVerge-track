@@ -28,14 +28,19 @@ exports.loginuser = async (req, res, next) => {
     const { email, password } = req.body;
     try {
         let user = await User.findOne({ email });
-        console.log(user)
         if (!user) {
             return res.status(400).json({ errors: [{ msg: "invalid Email or passward" }] })
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) { return res.status(400).json({ errors: [{ msg: "invalid passward" }] }) }
 
-        const payload = { user: { id: user._id } }
+
+        const payload = {
+            user: {
+                id: user._id
+            }
+        }
+
         jwt.sign(payload,
             config.jwtSecret,
             { expiresIn: 360000 }, (err, token) => {

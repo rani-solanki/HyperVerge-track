@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator');
-const User = require('../models/users');
+const Bus = require('../models/busSchema');
+const User = require('../models/users')
+const auth = require('../middleware/auth');
 
 const validations = (req) => {
     const errors = validationResult(req);
@@ -10,32 +12,67 @@ const validations = (req) => {
         return false
     }
 }
+exports.auth = (auth) => {
+    console.log(auth)
+}
 
-exports.CreateBus = async (req, res) => {
-    const error = validation(req)
+exports.CreateBus = async (req, res,next) => {
+        const error = validations(req)
     try {
         if (error) {
-            next(error)
-            return res.status(400).json("validation error", error)
+            return next({
+                status: 400,
+                error:"validation error"
+            })
+        }
+        const {
+            busName,
+            vehicleNo,
+            seats,
+            busType,
+            seatCategory,
+            policy,
+            images,
+            from,
+            to,
+            arrivalTime,
+            departureTime,
+        } = req.body;
+
+        let bus_size = [];
+        list = ["A", "B", "C", "D"];
+        for (let i = 0; i < 4; i++) {
+            row = [];
+            for (let j = 1; j <= seats; j++){
+                row.push(j + list[i]);
+            }
+            bus_size.push(row);
         }
 
-        const user = await User.findById(req.user.id)
-        let isAdmin = user.isAdmin
-        console.log(isAdmin)
-        
-        if (isAdmin === true) {
-            const bus = new Bus(req.body)
-            const newbus = await bus.save()
-            if (newbus) {
-                const busId = bus.id
-                return res.status(200).json({ msg: "BusId", busId })
-            }
+        const busDetails = {
+            busName:req.body.busName,
+            vehicleNo:req.body.vehicleNo,
+            seats:bus_size,
+            busType:req.body.busType,
+            seatCategory:req.body.seats,
+            policy:req.body.policy,
+            images: req.body.images,
+            from: req.body.from,
+            to:req.body.to,
+            arrivalTime:req.body.arrivalTime,
+            departureTime:req.body.departureTime
         }
-        else {
-            return res.status(400).json({ msg: "enter the valid admin token" })
+        const bus = new Bus(busDetails)
+        console.log(bus)
+        const newbus = await bus.save()
+        if (newbus) {
+            const busId = bus.id
+            return res.status(200).json({ msg: "BusId", busId })
         }
     }
     catch (err) {
-        return res.status(401).send({ "error": "Bus number has to be unique" })
+        console.log(err)
+        return res.status(401).send({ "error": "server error" })
     }
 }
+

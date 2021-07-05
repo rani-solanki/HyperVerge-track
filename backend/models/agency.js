@@ -1,10 +1,9 @@
 const mongoose = require('mongoose')
 
 const Agency = new mongoose.Schema({
-
     agent: {
-        type: Schema.Types.ObjectId,
-        ref: User
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
     },
     phone: {
         type: Number,
@@ -16,11 +15,13 @@ const Agency = new mongoose.Schema({
         index: true
     },
     headOfficeLocation: {
-        type: String
+        type: String,
+        reuiqred:true
     }
-
 }, {
     timestamps: true
 })
-const agency = mongoose.model('Agencies', AgencySchema)
+const agency = mongoose.model('Agencies', Agency)
 module.export = agency
+
+

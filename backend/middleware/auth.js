@@ -10,8 +10,10 @@ module.exports = function (req, res, next) {
     }
     //verify token
     try {
-        const Result = jwt.verify(token, config.jwtSecret);
-        req.user = Result.user;
+        // console.log(config.get("jwtSecret"))
+        const Result = jwt.verify(token, config.get("jwtSecret"));
+        // console.log(Result)
+        req.user = Result.admin;
         next();
 
     } catch (err) {

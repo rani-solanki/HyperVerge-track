@@ -22,11 +22,12 @@ const userschema = new mongoose.Schema({
         default: false
     },
     resetToken: String,
-    exprieToken: Date
-    },
+    expireToken: Date,
+},
     {
         timestamps: true
     }
 )
+
 const User = mongoose.model('Users', userschema)
 module.exports = User

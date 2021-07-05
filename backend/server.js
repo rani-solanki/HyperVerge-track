@@ -16,17 +16,16 @@ const adminAuthRoutes = require('./router/api/adminAuth');
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/admin', AdminRoutes);
+app.use('/api/admins', AdminRoutes);
 app.use('/api/adminauth', adminAuthRoutes);
 
 app.use(errorhandler);
 app.use((err, req, res, next) => {
-    console.log("validation error from the errorHandler",err)
-    return res.status(err.status).json({errors: err.errors})
+    // console.log(err)
+    return res.status(err.status).json(err)
 })
 
 module.exports = app
-
 app.listen(1900, () => {
     console.log("server is runing")
 })

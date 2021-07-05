@@ -1,4 +1,4 @@
-const {validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer")
@@ -8,14 +8,25 @@ const crypto = require('crypto');
 //desc    reset password
 //access  private
 
-// forgot Password 
-exports.resetPassword = async (req, res, next) => {
+const validations = (req) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        return errors
+    }
+    else {
+        return false
+    }
+}
+
+// forgot Password 
+exports.resetPassword = async (req, res, next) => {
+    const error = validations(req);
+    if (error) {
+        next(error)
         return res.status(400).json({ errors: errors });
     }
     try {
-        crypto.randomBytes(32, async (err,buffer) => {
+        crypto.randomBytes(32, async (err, buffer) => {
             if (err) {
                 console.log(err);
             }
@@ -23,10 +34,13 @@ exports.resetPassword = async (req, res, next) => {
             const token = buffer.toString("hex");
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
-                return res.status(500) .json({ error: "user is not exit" });
+                return res.status(500).json({ error: "user is not exit" });
             }
+            
             user.resetToken = token;
             user.exprieToken = Date.now() + 360000;
+
+            console.log("user.resetToken")
 
             let transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -51,7 +65,7 @@ exports.resetPassword = async (req, res, next) => {
             }
             transporter.sendMail(mail, (err, data) => {
                 if (err) {
-                    return res.status(400).json({ status: 'fail'})
+                    return res.status(400).json({ status: 'fail' })
                 } else {
                     return res.status(200).json({ messege: "check your email", token });
                 }
@@ -67,17 +81,17 @@ exports.resetPassword = async (req, res, next) => {
 //desc    add new password
 //access  private
 
-exports.newPassword = async(req, res, next) => {
+exports.newPassword = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors });
     }
-    
+
     try {
         const newPassword = req.body.password
-        const sentToken = req.body.token
-        console.log(sentToken)
-        const user = User.findOne({ resetToken: sentToken })
+        const resetToken = req.body.token
+        // console.log(sentToken)
+        const user = await User.findOne({ resetToken })
         console.log(user)
         if (!user) {
             return res.status(422).json({ error: "Try again session expired" })
@@ -87,8 +101,8 @@ exports.newPassword = async(req, res, next) => {
         user.resetToken = undefined
         user.expireToken = undefined
 
-        console.log(user)
-        const savedUser = await user.save();
+        // console.log(user)
+        const savedUser = user.save();
         if (savedUser) {
             return res.json({ message: "password updated success" })
         }
