@@ -49,17 +49,20 @@ router.post('/admin/location', isAuth, isAdmin, [
 
 router.post('/admin/agency',isAuth, isAdmin,
   [
-    check('phone','phone number in required').not().isLength({ min:10},
+    check('phone', 'phone number in required').isInt()
+      .isLength({ min: 10, max: 10 }),
     check('agencyName', 'agency name is required').not().isEmpty(),
-    check('headOfficeLocation', 'headOffical is required').not().isEmpty())
+    check('headOfficeLocation', 'headOffical is required').not().isEmpty()
   ],
   agencyController.createAgency,
   async (req, res) => {
   })
- 
-  // get the agency 
-router.get('admin/agency/:agentId', agencyController.getAgency);
 
+  // get the agency 
+router.get('admin/Agency', isAuth,
+  isAdmin,
+  agencyController.getAgency
+);
 
 // POST @route api/admins/:adminId/addStaff
 router.post('/admin/addStaff', [isAuth, isAdmin, [

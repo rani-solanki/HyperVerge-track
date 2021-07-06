@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
-
 const staffSchema = new mongoose.Schema({
     adminId: {
-        type: Schema.Types.ObjectId,
-        ref: User,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
         required: true
     },
-
     name: {
         type: String,
         required: true

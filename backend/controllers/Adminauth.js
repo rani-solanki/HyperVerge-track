@@ -18,7 +18,7 @@ const validations = (req) => {
     }
 }
 
-exports.adminLogin = async (req, res, next) => {
+const adminLogin = async (req, res, next) => {
     const error = validations(req);
     if (error) {
         next(error)
@@ -50,3 +50,4 @@ exports.adminLogin = async (req, res, next) => {
     }
 }
 
+module.exports = {adminLogin}

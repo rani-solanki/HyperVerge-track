@@ -17,6 +17,11 @@ const validations = (req) => {
     }
 }
 
+
+const getSignedJwtToken = (payload,secret,expiresIn)=>{
+    return jwt.sign({ id: this._id }, secret, { expiresIn });
+} 
+
 exports.loginuser = async (req, res, next) => {   
      // Done validation 
     const error = validations(req);
@@ -24,7 +29,6 @@ exports.loginuser = async (req, res, next) => {
         next(error)
         return res.status(400).json({"validations error":error});
     }
-    
     const { email, password } = req.body;
     try {
         let user = await User.findOne({ email });
@@ -34,21 +38,18 @@ exports.loginuser = async (req, res, next) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) { return res.status(400).json({ errors: [{ msg: "invalid passward" }] }) }
 
-
         const payload = {
             user: {
                 id: user._id
             }
         }
 
-        jwt.sign(payload,
-            config.jwtSecret,
-            { expiresIn: 360000 }, (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            });
+        data = { expiresIn: 360000 }
+        result = getSignedJwtToken(payload, config.get("jwtSecret"), data.expiresIn)
+        return res.json({ token })
+        
     }
-    catch (err) {
+    catch (err){
         console.log(err)
         return res.status(500).send('server error')
     }

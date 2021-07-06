@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const Bus = require('../models/busSchema');
 const User = require('../models/users')
 const auth = require('../middleware/auth');
+const {locationSearch} = require('../Serches/searchLocation');
 
 const validations = (req) => {
     const errors = validationResult(req);
@@ -11,9 +12,6 @@ const validations = (req) => {
     else {
         return false
     }
-}
-exports.auth = (auth) => {
-    console.log(auth)
 }
 
 exports.CreateBus = async (req, res,next) => {
@@ -47,8 +45,7 @@ exports.CreateBus = async (req, res,next) => {
                 row.push(j + list[i]);
             }
             bus_size.push(row);
-        }
-
+        }        
         const busDetails = {
             busName:req.body.busName,
             vehicleNo:req.body.vehicleNo,
@@ -62,6 +59,12 @@ exports.CreateBus = async (req, res,next) => {
             arrivalTime:req.body.arrivalTime,
             departureTime:req.body.departureTime
         }
+        if (agency) { busDetails.agency = agencyProfile._id; }
+        let formLocation = await locationSearch(from);
+        if (!formLocation) { return res.status(404).json({ msg: "No such location found" })}
+
+        let toLocation = await locationSearch(to);
+        if (!toLocation) {return res.status(404).json({ msg: "No such location found" })}
         const bus = new Bus(busDetails)
         console.log(bus)
         const newbus = await bus.save()
@@ -70,7 +73,7 @@ exports.CreateBus = async (req, res,next) => {
             return res.status(200).json({ msg: "BusId", busId })
         }
     }
-    catch (err) {
+    catch(err) {
         console.log(err)
         return res.status(401).send({ "error": "server error" })
     }

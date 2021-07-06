@@ -1,6 +1,6 @@
 const { check, validationResult } = require('express-validator')
-const Agency = require('../models/staff');
-const Staffs = require('../models/Staffs');
+const Agency = require('../models/agency');
+const Staffs = require('../models/staff');
 
 exports.addStaff = async (req, res) => {
     const errors = validationResult(req);
@@ -12,7 +12,6 @@ exports.addStaff = async (req, res) => {
     }
 
     // decalearation 
-
     const { phone,
         name,
         address,
@@ -26,7 +25,7 @@ exports.addStaff = async (req, res) => {
         address,
         isDriver
     };
-
+    
     // add adminid in staff
     newstaff.adminId = req.user.id;
     try {

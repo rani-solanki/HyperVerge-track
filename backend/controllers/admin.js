@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 //desc    register admin
 //access  public
 
-const validations = (req) => {
+const validations = (req)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return errors
@@ -16,7 +16,7 @@ const validations = (req) => {
     }
 }
 
-exports.adminSignup = async (req, res, next) => {
+const adminSignup = async (req, res, next) => {
     const error = validations(req)
     if (error) {
         next(error)
@@ -43,3 +43,4 @@ exports.adminSignup = async (req, res, next) => {
     }
 }
 
+module.exports = {adminSignup}

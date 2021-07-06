@@ -2,24 +2,28 @@ const { validationResult } = require('express-validator');
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
 
+
 //@route  POST api/users/signup
 //desc    register user
 //access  public
+
 const validations = (req) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return errors
+    const error = validationResult(req);
+    console.log(error)
+    if (!error.isEmpty()) {
+        return error
     }
     else {
         return false
     }
 }
 
-exports.userSignup = async (req, res, next) => {
+const userSignup = async (req, res, next) => {
     const error = validations(req)
+    console.log(error)
     if (error) {
         next(error)
-        return res.json({ "validation error": error })
+        return res.status(401).json({"validation error": error})
     }
 
     const { name, email, password } = req.body;
@@ -43,8 +47,7 @@ exports.userSignup = async (req, res, next) => {
     }
 }
 
-
-
+module.exports = {userSignup}
 
 
 
