@@ -90,9 +90,7 @@ exports.newPassword = async (req, res, next) => {
     try {
         const newPassword = req.body.password
         const resetToken = req.body.token
-        // console.log(sentToken)
         const user = await User.findOne({ resetToken })
-        console.log(user)
         if (!user) {
             return res.status(422).json({ error: "Try again session expired" })
         }

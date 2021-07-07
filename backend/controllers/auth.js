@@ -17,10 +17,13 @@ const validations = (req) => {
     }
 }
 
-
-const getSignedJwtToken = (payload,secret,expiresIn)=>{
-    return jwt.sign({ id: this._id }, secret, { expiresIn });
-} 
+const getSignedJwtToken = function (
+    payload,
+    secret = config.get("jwtSecret"),
+    expiresIn = 40000
+) {
+    return jwt.sign(payload, secret, { expiresIn });
+};
 
 exports.loginuser = async (req, res, next) => {   
      // Done validation 
@@ -44,14 +47,12 @@ exports.loginuser = async (req, res, next) => {
             }
         }
 
-        data = { expiresIn: 360000 }
-        result = getSignedJwtToken(payload, config.get("jwtSecret"), data.expiresIn)
-        return res.json({ token })
-        
+        const result = getSignedJwtToken(payload)
+        return res.status(200).json({result})
     }
     catch (err){
         console.log(err)
-        return res.status(500).send('server error')
+        return res.status(500).json('server error')
     }
 }
 

@@ -18,7 +18,6 @@ exports.getAgency = async (req, res) => {
 };
 
 exports.createAgency = async (req, res, next) => {
-  console.log(req.body)
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
       return next({
@@ -26,7 +25,7 @@ exports.createAgency = async (req, res, next) => {
         error: "validation error"
       });
   }
-  
+
   const { phone, agencyName, headOfficeLocation } = req.body;
     const agencyInfo = {
       phone,
@@ -36,8 +35,9 @@ exports.createAgency = async (req, res, next) => {
   
   agencyInfo.agent = req.user.id;
   try {
-      console.log(agency)
-      let agencyProfile = await Agency.findOne({ agent: req.user.id });
+    console.log(agencyInfo.agent)
+    let agencyProfile = await Agency.findOnd({});
+    console.log(agencyProfile)
       console.log(agencyProfile)
         if (agencyProfile){
             agencyProfile = await Agency.findOneAndUpdate(

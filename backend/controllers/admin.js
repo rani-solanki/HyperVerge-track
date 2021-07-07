@@ -19,12 +19,14 @@ const validations = (req)=>{
 const adminSignup = async (req, res, next) => {
     const error = validations(req)
     if (error) {
-        next(error)
-        return res.json(error)
+        return next({ status: 401, errors: "validation error" })
     }
+    
     const { name, email, password, isAdmin } = req.body;
     try {
+       
         let admin = await User.findOne({ email });
+        console.log("hellom  w")
         if (admin) {
             return res.json({ errors: "admin is already exists"})
         }
@@ -32,14 +34,10 @@ const adminSignup = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         admin.password = await bcrypt.hash(password, salt);
         await admin.save();
-        
         return res.status(200).json("admin registered")
     }
     catch (err) {
-        return next({
-            status: 500,
-            errors: "server error"
-        })
+        return next({ status: 500, errors: "server error" })
     }
 }
 
