@@ -25,13 +25,14 @@ const getSignedJwtToken = function (
     return jwt.sign(payload, secret, { expiresIn });
 };
 
-exports.loginuser = async (req, res, next) => {   
+exports.loginuser = async (req, res, next)=>{   
      // Done validation 
     const error = validations(req);
     if (error) {
         next(error)
         return res.status(400).json({"validations error":error});
     }
+
     const { email, password } = req.body;
     try {
         let user = await User.findOne({ email });
@@ -41,17 +42,12 @@ exports.loginuser = async (req, res, next) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) { return res.status(400).json({ errors: [{ msg: "invalid passward" }] }) }
 
-        const payload = {
-            user: {
-                id: user._id
-            }
-        }
-
+        const payload = { user: { id: user._id } }
+        
         const result = getSignedJwtToken(payload)
         return res.status(200).json({result})
     }
     catch (err){
-        console.log(err)
         return res.status(500).json('server error')
     }
 }

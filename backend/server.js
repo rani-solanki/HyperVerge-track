@@ -26,6 +26,6 @@ app.use((err, req, res, next) => {
 })
 
 module.exports = app
-// app.listen(1900, () => {
-//     console.log("server is runing")
-// })
+app.listen(1900, () => {
+    console.log("server is runing")
+})

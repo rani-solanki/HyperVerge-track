@@ -3,7 +3,6 @@ const app = require('../app');
 const db = require('../config/db');
 const { userSignup } = require('../controllers/user')
 const { loginuser } = require('../controllers/auth')
-const { resetPassword } = require('../controllers/resetPassword');
 const App = require('../server')
 const agent = request.agent(App);
 
@@ -46,10 +45,8 @@ describe("Test with user login", () => {
             }
         }
         const res = mockResponce();
-        console.log("message from user sign in",res)
         await loginuser(req, res)
         expect(res.status).toHaveBeenCalledWith(200);
-        console.log(res.json)
     })
 });
 
@@ -63,7 +60,7 @@ describe("Test with next middleware ", () => {
             res.json = jest.fn().mockReturnValue(res);
             return res
         }
-
+        
         let req = {
             body: {
                 "name": "Rani Solanki",
@@ -78,23 +75,6 @@ describe("Test with next middleware ", () => {
     })
 })
 
-// confirm email
-// it('it should be confirm email', async () => {
-//     let bodyData = {
-//         body: {
-//             "email": "rani19@navgurukul.org"
-//         }
-//     }
-//     try {
-//         const res = await resetPassword(bodyData)
-//         expect(res.status).toBe(200)
-//         expect(res.json).toBe("expect(res.statusCode).toBe(200")
-
-//     } catch (err) {
-//         console.log("res useet password failed", err)
-//     }
-// })
-
 // api testing 
 it("user should be create new user", async () => {
     const res = await agent.post("/api/users/signup").send({
@@ -105,7 +85,7 @@ it("user should be create new user", async () => {
     expect(res.status).toBe(200)
 })
 
-// // user login 
+// user login 
 it("user should be able to login", async () => {
     const res = await agent.post('/api/auth/login').send({
 
@@ -113,7 +93,5 @@ it("user should be able to login", async () => {
         password: "12345677346"
     })
     expect(res.status).toBe(200)
-    console.log(res.status)
 })
-
 

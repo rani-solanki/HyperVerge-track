@@ -6,7 +6,7 @@ const locaController = require('../../controllers/location');
 const busController = require('../../controllers/bus');
 const isAuth = require('../../middleware/auth');
 const isAdmin = require('../../middleware/isAdmin');
-const agencyController = require('../../controllers/Agency');
+const {createAgency,getAgency} = require('../../controllers/Agency');
 const staffController = require('../../controllers/staff')
 
 // admin signup;
@@ -46,23 +46,22 @@ router.post('/admin/location', isAuth, isAdmin, [
   locaController.location,
   async (req, res) => {
   })
-
-router.post('/admin/agency',isAuth, isAdmin,
-  [
+  
+router.post('/admin/agency', isAdmin,[
     check('phone', 'phone number in required').isInt()
       .isLength({ min: 10, max: 10 }),
     check('agencyName', 'agency name is required').not().isEmpty(),
     check('headOfficeLocation', 'headOffical is required').not().isEmpty()
-  ],
-  agencyController.createAgency,
-  async (req, res) => {
+  ], createAgency, async (req, res) => {
+    
   })
 
-  // get the agency 
-router.get('admin/Agency', isAuth,
-  isAdmin,
-  agencyController.getAgency
-);
+
+// get the agency 
+// router.get('admin/Agency', isAuth,
+//   isAdmin,
+//   getAgency
+// );
 
 // POST @route api/admins/:adminId/addStaff
 router.post('/admin/addStaff', [isAuth, isAdmin, [

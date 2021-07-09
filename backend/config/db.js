@@ -11,6 +11,7 @@ const db = config.get("mongoURL");
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useNewUrlParser: true,
+            useUnifiedTopology: true,
             keepAlive: 1
         };
 

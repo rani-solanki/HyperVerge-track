@@ -1,5 +1,13 @@
 const { adminSignup } = require('../controllers/admin')
 const { adminLogin } = require('../controllers/Adminauth')
+const { addLocation } = require('./location');
+const db = require('../config/db');
+const App = require('../server')
+const request = require('supertest');
+const agent = request.agent(App);
+
+beforeAll(async () => await db.connect());
+afterAll(async () => await db.close());
 
 const mockResponce = () => {
     const res = {}
@@ -9,39 +17,34 @@ const mockResponce = () => {
 }
 
 describe("Test with admin sign up", () => {
-    jest.setTimeout(50000);
+    console.log(1,"hello")
+    jest.setTimeout(15000);
+    // admin signup api testing 
     it('it should create a new admin', async () => {
         const next = jest.fn();
         let req = {
             body: {
-                name: "Rani Solanki",
-                email: "rani19@navgurukul.org",
-                password: "7234582651",
+                name: "Sonu shakya",
+                email: "sonu19@navgurukul.org",
+                password: "123456789",
                 isAdmin: true
             }
         }
-
         const res = mockResponce();
-        await adminSignup(req, res,next)
-        expect(next).toHaveBeenCalledWith();
+        await adminSignup(req, res, next)
+        expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith("admin registered");
     })
-})
 
-// usersign 
-describe("Test with admin sign in", () => {
-    it('it should be admin signin', async () => {
-        let bodyData = {
-            body: {
-                email: "rani19@navgurukul.org",
-                password: "7234582651",
-            }
-        }
-        const res = mockResponce();
-        console.log("message from user sign in", res)
-        await adminLogin(req, res)
-        expect(res.status).toHaveBeenCalledWith(200);
-        console.log(res.json)
+    // admin login api testing
+    it("admin should be create new admin", async () => {
+        const res = await agent.post("/api/admins/signup").send({
+            name: "Gyandeep",
+            email: "gyandeep23@gmail.com",
+            password: "12345677346",
+            isAdmin: true
+        })
+        expect(res.status).toBe(200)
     })
 })
 
@@ -61,13 +64,40 @@ describe("Test with next middleware ", () => {
                 name: "Rani Solanki",
                 email: "rani19@navgurukul.org",
                 password: "7234582651",
-                isAdmin:true
+                isAdmin: true
             }
         }
         const res = mockResponce();
         await adminSignup(req, res, next)
         console.log(next.mock.calls.length, "next 2");
-        console.log(next.mock.calls[0], "response");
     })
 })
 
+
+describe("test should be run for admin sign in", () => {
+    console.log(2, "hello")
+    // admin login api testing
+    it("admin should be able to login", async () => {
+        jest.setTimeout(15000);
+        const res = await agent.post('/api/adminauth/login').send({
+            email: "gyandeep23@gmail.com",
+            password: "12345677346"
+        })
+        expect(res.status).toBe(200)
+    })
+    
+    addLocation()
+    
+    // admin unit testing
+    it('it should be admin signin', async () => {
+        let req = {
+            body: {
+                email: "sonu19@navgurukul.org",
+                password: "123456789"
+            }
+        }
+        const res = mockResponce();
+        await adminLogin(req, res)
+        expect(res.status).toHaveBeenCalledWith(200);
+    })
+})

@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const Location = require('../models/location');
 
+
 exports.location = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -18,7 +19,7 @@ exports.location = async (req, res) => {
                 }
             })
         }
-        location = new Location({
+        const location = new Location({
             city,
             state,
         });

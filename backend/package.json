@@ -23,7 +23,7 @@
     "body-parser": "^1.19.0",
     "cache": "^2.3.1",
     "clean": "^4.0.2",
-    "config": "^3.3.6",
+    "config": "3.3.1",
     "connect": "^3.7.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",

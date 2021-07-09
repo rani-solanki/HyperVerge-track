@@ -1,14 +1,13 @@
 const User = require('../models/users')
 
 module.exports = async (req, res, next) => {
-    let user = await User.findById(req.user.id);
-    const isAdmin = user.isAdmin
-    console.log(isAdmin)
+    const isAdmin = req.user.admin.isAdmin
     if (!isAdmin) {
-        const err = { status: 401, msg: 'only admin can create bus' }
+        const err = { status: 401, msg: 'No token, authorization failed' }
         return next(err)
     }
     next()
 }
+
 
 

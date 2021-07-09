@@ -17,36 +17,44 @@ const validations = (req) => {
         return false
     }
 }
+const getSignedJwtToken = function (
+    payload,
+    secret = config.get("jwtSecret"),
+    expiresIn = 36000000
+) {
+    return jwt.sign(payload, secret, { expiresIn });
+};
 
 const adminLogin = async (req, res, next) => {
     const error = validations(req);
-    if (error) {
-        next(error)
-        return res.status(400).json({ errors: errors.array()});
+    if (error){
+        return next({
+            status: 401,
+            error:"validation error"
+        })
     }
     // Done validation 
     const { email, password} = req.body;
     try {
-        let admin = await User.findOne({email});
-        console.log(admin)
-
+        let admin = await User.findOne({ email });
         if (!admin) {
             return res.status(400).json({ errors: [{ msg: "invalid Email or passward" }] })
         }
-        const isMatch = await bcrypt.compare(password, admin .password);
+        const isMatch = await bcrypt.compare(password, admin.password);
         if (!isMatch) { return res.status(400).json({ errors: [{ msg: "invalid passward" }] }) }
-
-        const payload = { admin: { id: admin._id } }
-        jwt.sign(payload,
-            config.jwtSecret,
-            { expiresIn: 360000 }, (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            });
+        const isAdmin = admin.isAdmin
+        const payload = {
+            admin: {
+                id: admin._id,
+                isAdmin
+            }
+        }
+        
+        const result = getSignedJwtToken(payload)
+        return res.status(200).json({ result })
     }
     catch (err) {
-        console.log(err)
-        return res.status(500).send('server error')
+        return res.status(500).json({"msg":"server error"})
     }
 }
 

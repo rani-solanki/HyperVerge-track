@@ -19,17 +19,19 @@ const validations = (req)=>{
 const adminSignup = async (req, res, next) => {
     const error = validations(req)
     if (error) {
-        return next({ status: 401, errors: "validation error" })
+        return next({ status: 401, error: "validation error" })
     }
     
     const { name, email, password, isAdmin } = req.body;
     try {
-       
         let admin = await User.findOne({ email });
-        console.log("hellom  w")
         if (admin) {
-            return res.json({ errors: "admin is already exists"})
+            return next({
+                status: 400,
+                errors: "admin is already exists"
+            })
         }
+
         admin = new User(req.body)
         const salt = await bcrypt.genSalt(10);
         admin.password = await bcrypt.hash(password, salt);
