@@ -1,4 +1,5 @@
 const Bus = require('../models/busSchema');
+const { ticketsBooked } = require('../Serches/BookTickets');
 
 const FindBusStatus = async (req, res) => {
     try {
@@ -7,20 +8,22 @@ const FindBusStatus = async (req, res) => {
             return res.status(400).json({ msg: "there is no such bus" });
         }
         const seats = bus.seats;
-        let allBookedSeats = await allBookedTickets(req.params.busId);
-        let statusObj = {};
-        
-        for (let i = 0; i < seats.length; i++) {
-            for (let j = 0; j < seats[i].length; j++) {
-                if (allBookedSeats.includes(seats[i][j])) {
-                    statusObj[`${seats[i][j]}`] = "Booked";
+        let BookedSeats = await ticketsBooked(req.params.busId);
+        console.log(BookedSeats)
+
+        let ticketsStatus = {};
+        for (let index = 0; index < seats.length; index++) {
+            for (let Pointer = 0; Pointer < seats[index].length; Pointer++){
+                if (BookedSeats.includes(seats[index][Pointer])){
+                    ticketsStatus[`${seats[index][Pointer]}`] = "Booked";
                 } else {
-                    statusObj[`${seats[i][j]}`] = "Empty";
+                    ticketsStatus[`${seats[index][Pointer]}`] = "Empty";
                 }
             }
         }
-        return res.status(200).json(statusObj);
-    } catch (err) {
+        return res.status(200).json(ticketsStatus);
+    }catch(err){
+        console.log(err)
         res.status(500).json("server Error");
     }
 };
