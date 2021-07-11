@@ -13,7 +13,6 @@ const validations = (req) => {
         return false
     }
 }
-
 const BookTickets = async (req, res, next) => {
     const error = validations(req)
     console.log(error)
@@ -33,7 +32,6 @@ const BookTickets = async (req, res, next) => {
             email,
             departureDate
         };
-
         const bus = await Bus.findById(req.params.busId);
         console.log(bus)
         if (!bus) {
@@ -65,10 +63,9 @@ const BookTickets = async (req, res, next) => {
             bookTickets.busId = bus.id
             const Tickets = new Ticket(bookTickets);
             await Tickets.save();
-            return res.status(200).json(bookTickets)
+            return res.status(200).json(bookTickets);
         }
-
-    } catch (err) {
+    }catch(err) {
         console.log(err);
         return next({ status: 400, error: "server error" })
     }
@@ -95,24 +92,22 @@ const getTickets = (req, res) => {
 const cancelTickets = async (req, res) => {
     const _id = req.params._id
     const busId = req.params.busId
-    const ticket = await Ticket.findOne({ _id })
-    console.log(ticket)
-    if (!ticket) {
-        return res.status(404).json({ 'msg': "Ticket Not Found" })
-    }
 
+    // search bus
     const bus = await Bus.findById(busId)
     console.log(bus)
     if (!bus) {
         return res.status(404).json({ 'msg': "Bus Not Found" })
     }
-    // const ticket = await Ticket.findOne({ _id })
-    // if (!ticket) {
-    //     return res.status(404).json({ 'msg': "Ticket Not Found" })
-    // }
+    // search tickets
+    const ticket = await Ticket.findOne({ _id })
+    if (!ticket) {
+        return res.status(404).json({ 'msg': "Ticket Not Found" })
+    }
 
+    // remove tickets
     const remove = await Ticket.findOneAndRemove({ _id })
-    await remove.save();
     return res.status(200).json({"msg":"Tickets has been removed"})
 }
+
 module.exports = { BookTickets, getTickets, cancelTickets };

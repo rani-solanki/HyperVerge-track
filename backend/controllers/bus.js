@@ -107,3 +107,35 @@ exports.getBus = async (req, res) => {
     }
 };
 
+exports.cancelBus = async (req, res) => {
+    try {
+        const busId = req.params.busId
+        const bus = Bus.findOne({ busId })
+        if (bus) {
+            return res.status(404).json({"msg":"Bus Not Found"})
+        }
+
+        const removeBus = await Bus.findOneAndRemove({ busId })
+        console.log(removeBus)
+        if (removeBus) {
+            return res.status(200).json({"msg":"Bus has been cancel"})
+        }
+    }catch(err){
+        return res.status(500).json({"msg": "server error"})
+    }
+}
+
+exports.resetBus = async (req, res) => {
+    try {
+        const busId = req.params.busId
+        if (bus) {
+            return res.status(404).json({ "msg": "Bus Not Found" })
+        }
+        const resetBus = await CreateBus();
+        console.log(resetBus)
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({"msg":"server error"})
+    }
+}

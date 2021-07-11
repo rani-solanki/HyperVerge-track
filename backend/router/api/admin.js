@@ -3,7 +3,7 @@ const router = express.Router();
 const { check } = require('express-validator');
 const adminController = require('../../controllers/admin');
 const locaController = require('../../controllers/location');
-const { CreateBus, getBus} = require('../../controllers/bus');
+const { CreateBus, getBus, resetBus, cancelBus} = require('../../controllers/bus');
 const isAuth = require('../../middleware/auth');
 const isAdmin = require('../../middleware/isAdmin');
 const {createAgency,getAgency} = require('../../controllers/Agency');
@@ -21,6 +21,51 @@ router.post('/signup', [
   }
 )
 
+// search bus
+router.post('/admin/:busId', isAuth,[
+  check("source", 'source is reqquired'),
+  check("destination", 'destination id required'),
+  check("date",'date is required')
+  
+], async(req, res) => { })
+
+// add location 
+router.post('/admin/location', isAuth, isAdmin, [
+  check('city', 'please inclde unique and valid email').not().isEmail(),
+  check('state', 'please enter the passward').not().isEmpty()
+],
+  locaController.location,
+  async (req, res) => {
+  })
+
+router.post('/admin/agency', isAuth,isAdmin,[
+    check('phone', 'phone number in required').isInt()
+      .isLength({ min: 10, max: 10 }),
+    check('agencyName', 'agency name is required').not().isEmpty(),
+    check('headOfficeLocation', 'headOffical is required').not().isEmpty()
+], createAgency, async (req, res) => {})
+
+// get the agency 
+router.get('/admin/profile',isAuth,isAdmin,getAgency );
+
+
+// POST @route api/admins/:adminId/addStaff
+router.post('/admin/addStaff', [isAuth, isAdmin, [
+  check('phone', 'Phone number is required')
+    .isInt()
+    .isLength({ min: 10, max: 10 }),
+  check('name', 'Agency name is required')
+    .not()
+    .isEmpty(),
+  check('address', 'Address of the staff is required')
+    .not()
+    .isEmpty(),
+  check('isDriver', 'Position is required')
+    .isBoolean()
+]], staffController.addStaff)
+
+
+// Add bus
 router.post('/admin/Addbus', isAuth, isAdmin, [
   check("busName", "enter the bus name").not().isEmpty(),
   check("agency", "enter the bus agency").not().isEmpty(),
@@ -39,53 +84,10 @@ router.post('/admin/Addbus', isAuth, isAdmin, [
   async (req, res) => {
   })
 
+// resetBus
+router.post('/admin/resetBus', isAuth, isAdmin, resetBus);
 
-// search bus
-// router.post('/admin/:busId', isAuth, [
-//   check("source", 'source is reqquired'),
-//   check("destination", 'destination id required'),
-//   check("date",'date is required')
-  
-// ], getBus, async(req, res) => { })
-
-// get bus
-
-
-
-// add location 
-router.post('/admin/location', isAuth, isAdmin, [
-  check('city', 'please inclde unique and valid email').not().isEmail(),
-  check('state', 'please enter the passward').not().isEmpty()
-],
-  locaController.location,
-  async (req, res) => {
-  })
-  
-router.post('/admin/agency', isAuth,isAdmin,[
-    check('phone', 'phone number in required').isInt()
-      .isLength({ min: 10, max: 10 }),
-    check('agencyName', 'agency name is required').not().isEmpty(),
-    check('headOfficeLocation', 'headOffical is required').not().isEmpty()
-  ], createAgency, async (req, res) => {
-    
-})
-
-// get the agency 
-router.get('/admin/profile',isAuth,isAdmin,getAgency );
-
-// POST @route api/admins/:adminId/addStaff
-router.post('/admin/addStaff', [isAuth, isAdmin, [
-  check('phone', 'Phone number is required')
-    .isInt()
-    .isLength({ min: 10, max: 10 }),
-  check('name', 'Agency name is required')
-    .not()
-    .isEmpty(),
-  check('address', 'Address of the staff is required')
-    .not()
-    .isEmpty(),
-  check('isDriver', 'Position is required')
-    .isBoolean()
-]], staffController.addStaff)
+// delete bus 
+router.delete('/admin/buses/:busId/cancel', isAuth, isAdmin, cancelBus);
 
 module.exports = router;
