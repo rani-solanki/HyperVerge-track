@@ -12,11 +12,14 @@ const userRoutes = require('./router/api/users');
 const authRoutes = require('./router/api/auth');
 const AdminRoutes = require('./router/api/admin');
 const adminAuthRoutes = require('./router/api/adminAuth');
+const busRoutes = require('./router/api/bus');
+
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admins', AdminRoutes);
 app.use('/api/adminauth', adminAuthRoutes);
+app.use('/api/buses', busRoutes)
 
 app.use(errorhandler);
 app.use((err, req, res, next) => {

@@ -17,11 +17,12 @@ const busSchema = new mongoose.Schema({
     seats: [[{
         type: String,
     }]],
+
     busType: {
         type: String,
         enum: ['Ac','NonAc'],
         default: 'Ac',
-        required: true
+        required:"true"
     },
     seatCategory: {
         type: String,

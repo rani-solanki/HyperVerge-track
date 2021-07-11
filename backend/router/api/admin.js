@@ -3,7 +3,7 @@ const router = express.Router();
 const { check } = require('express-validator');
 const adminController = require('../../controllers/admin');
 const locaController = require('../../controllers/location');
-const busController = require('../../controllers/bus');
+const { CreateBus, getBus} = require('../../controllers/bus');
 const isAuth = require('../../middleware/auth');
 const isAdmin = require('../../middleware/isAdmin');
 const {createAgency,getAgency} = require('../../controllers/Agency');
@@ -32,11 +32,25 @@ router.post('/admin/Addbus', isAuth, isAdmin, [
   check("image", "enter the bus image").not().isEmpty(),
   check('from', 'boarding point of the bus is required').not().isEmpty(),
   check('to', 'dropping point of the bus is required').not().isEmpty(),
+  check('busStaff', "busStaff is required").not().isEmpty(),
   check("arrivalTime", "enter the arrivalTime").not().isEmpty(),
   check("departureTime", "enter the departureTime").not().isEmpty()],
-  busController.CreateBus,
+  CreateBus,
   async (req, res) => {
   })
+
+
+// search bus
+// router.post('/admin/:busId', isAuth, [
+//   check("source", 'source is reqquired'),
+//   check("destination", 'destination id required'),
+//   check("date",'date is required')
+  
+// ], getBus, async(req, res) => { })
+
+// get bus
+
+
 
 // add location 
 router.post('/admin/location', isAuth, isAdmin, [
@@ -54,7 +68,7 @@ router.post('/admin/agency', isAuth,isAdmin,[
     check('headOfficeLocation', 'headOffical is required').not().isEmpty()
   ], createAgency, async (req, res) => {
     
-  })
+})
 
 // get the agency 
 router.get('/admin/profile',isAuth,isAdmin,getAgency );
