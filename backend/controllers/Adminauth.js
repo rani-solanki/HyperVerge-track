@@ -51,6 +51,7 @@ const adminLogin = async (req, res, next) => {
         }
         
         const result = getSignedJwtToken(payload)
+        console.log(result)
         return res.status(200).json({ result })
     }
     catch (err) {

@@ -1,6 +1,8 @@
 const { adminSignup } = require('../controllers/admin')
 const { adminLogin } = require('../controllers/Adminauth')
 const { addLocation } = require('./location');
+const { Agency} = require('./agency')
+const { addstaff } = require('./staff');
 const db = require('../config/db');
 const App = require('../server')
 const request = require('supertest');
@@ -73,7 +75,6 @@ describe("Test with next middleware ", () => {
     })
 })
 
-
 describe("test should be run for admin sign in", () => {
     console.log(2, "hello")
     // admin login api testing
@@ -87,7 +88,9 @@ describe("test should be run for admin sign in", () => {
     })
     
     addLocation()
-    
+    Agency()
+    addstaff()
+
     // admin unit testing
     it('it should be admin signin', async () => {
         let req = {

@@ -4,7 +4,6 @@ const dbConnect = require('./config/db.js');
 var errorhandler = require('errorhandler')
 var cors = require('cors')
 const app = express()
-
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

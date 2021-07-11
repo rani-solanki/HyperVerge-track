@@ -47,7 +47,7 @@ router.post('/admin/location', isAuth, isAdmin, [
   async (req, res) => {
   })
   
-router.post('/admin/agency', isAdmin,[
+router.post('/admin/agency', isAuth,isAdmin,[
     check('phone', 'phone number in required').isInt()
       .isLength({ min: 10, max: 10 }),
     check('agencyName', 'agency name is required').not().isEmpty(),
@@ -56,24 +56,21 @@ router.post('/admin/agency', isAdmin,[
     
   })
 
-
 // get the agency 
-// router.get('admin/Agency', isAuth,
-//   isAdmin,
-//   getAgency
-// );
+router.get('/admin/profile',isAuth,isAdmin,getAgency );
 
 // POST @route api/admins/:adminId/addStaff
 router.post('/admin/addStaff', [isAuth, isAdmin, [
   check('phone', 'Phone number is required')
-    .isLength(10),
+    .isInt()
+    .isLength({ min: 10, max: 10 }),
   check('name', 'Agency name is required')
     .not()
     .isEmpty(),
-  check('address', 'staff Address required')
+  check('address', 'Address of the staff is required')
     .not()
     .isEmpty(),
-  check('isDriver', 'Role is required')
+  check('isDriver', 'Position is required')
     .isBoolean()
 ]], staffController.addStaff)
 

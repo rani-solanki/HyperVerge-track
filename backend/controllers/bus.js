@@ -1,5 +1,8 @@
 const { validationResult } = require('express-validator');
 const Bus = require('../models/busSchema');
+const Agency = require('../models/agency');
+const Satff = require('../models/staff');
+const Location = require('../models/location');
 const User = require('../models/users')
 const auth = require('../middleware/auth');
 const {locationSearch} = require('../Serches/searchLocation');
@@ -59,8 +62,13 @@ exports.CreateBus = async (req, res,next) => {
             arrivalTime:req.body.arrivalTime,
             departureTime:req.body.departureTime
         }
-        if (agency) { busDetails.agency = agencyProfile._id; }
+        // const { agency }
+        // if (agency) {
+        //     busDetails.agency = agencyProfile._id;
+        // }
+
         let formLocation = await locationSearch(from);
+        console.log(formLocation)
         if (!formLocation) { return res.status(404).json({ msg: "No such location found" })}
 
         let toLocation = await locationSearch(to);

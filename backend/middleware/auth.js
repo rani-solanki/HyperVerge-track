@@ -8,7 +8,9 @@ module.exports = function(req, res, next){
     }
     try {
         const Result = jwt.verify(token, config.get("jwtSecret"));
-        req.user = Result
+        req.user = Result.admin
+        console.log("message", req.user)
+        // console.log(req.user.admin.id)
         next();
     } catch (err) {
         res.status(401).json({ msg: "Token is not valid" });

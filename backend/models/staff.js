@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const staffSchema = new mongoose.Schema({
     adminId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
-        required: true
+        ref: 'Users'
     },
     name: {
         type: String,
@@ -20,7 +19,6 @@ const staffSchema = new mongoose.Schema({
     isDriver: {
         type: Boolean,
         default: true,
-        required: true,
         index: true
     }
 }, {
