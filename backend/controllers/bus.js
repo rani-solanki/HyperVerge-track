@@ -6,6 +6,9 @@ const Location = require('../models/location');
 const User = require('../models/users')
 const auth = require('../middleware/auth');
 const { locationSearch, search } = require('../Serches/searchLocation');
+const { ticketsBooked } = require('../Serches/BookTickets');
+const { BookTickets } = require('./tickets');
+const Ticket = require('../models/Tickets');
 
 const validations = (req) => {
     const errors = validationResult(req);
@@ -17,7 +20,8 @@ const validations = (req) => {
     }
 }
 
-exports.CreateBus = async (req, res, next) => {
+exports.CreateBus = async (req, res, next)=>{
+    console.log("sajdgbh")
     const error = validations(req)
     console.log(error)
     try {
@@ -87,6 +91,7 @@ exports.CreateBus = async (req, res, next) => {
             const busId = bus.id
             return res.status(200).json({ msg: busId })
         }
+        next('route')
     }
     catch (err) {
         console.log(err)
@@ -125,17 +130,26 @@ exports.cancelBus = async (req, res) => {
     }
 }
 
+// reset bus
 exports.resetBus = async (req, res) => {
     try {
+        
         const busId = req.params.busId
-        if (bus) {
-            return res.status(404).json({ "msg": "Bus Not Found" })
-        }
-        const resetBus = await CreateBus();
-        console.log(resetBus)
+        console.log(busId)
+        const bus = await Bus.findOne({ _id: busId });
 
-    } catch (err) {
+        if(!bus){
+            return res.status(404).json({"msg": "Bus Not Found" })
+        }
+
+        const deleteTickes = await Ticket.deleteMany({ busId: req.params.busId })
+        console.log(deleteTickes)
+        return res.status(200).json({ "msg": "Reset bus is Succesfully" });
+
+    }catch (err) {
         console.log(err)
         return res.status(500).json({"msg":"server error"})
     }
 }
+
+

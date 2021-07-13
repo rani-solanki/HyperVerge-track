@@ -3,7 +3,7 @@ const { validationResult } = require("express-validator");
 
 const getAgency = async (req, res, next) => {
   try {
-    const agent = req.user.admin.id
+    const agent = req.user.id
     const agency = await Agency.findOne({ agent }).populate('agent')
 
     console.log(agency)

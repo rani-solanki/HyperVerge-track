@@ -1,12 +1,21 @@
 const { validationResult } = require('express-validator');
+const nodemailer = require('nodemailer');
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
-const nodemailer = require("nodemailer")
 const crypto = require('crypto');
+const apiKey = process.env.SENDGRID_KEY;
+const sendgridTransort = require("nodemailer-sendgrid-transport");
 
 //@route  POST api/auth/resetPassword
 //desc    reset password
 //access  private
+const transporter = nodemailer.createTransport(
+    sendgridTransort({
+        auth: {
+            api_key: apiKey
+        }
+    })
+);
 
 const validations = (req) => {
     const errors = validationResult(req);
@@ -20,9 +29,8 @@ const validations = (req) => {
 
 // forgot Password 
 exports.resetPassword = async (req, res, next) => {
-    const error = validations(req);
-    if (error) {
-        next(error)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors });
     }
     try {
@@ -30,50 +38,34 @@ exports.resetPassword = async (req, res, next) => {
             if (err) {
                 console.log(err);
             }
-            // console.log(res,buffer)
             const token = buffer.toString("hex");
+            console.log(buffer);
             const user = await User.findOne({ email: req.body.email });
+            console.log(user);
             if (!user) {
-                return res.status(500).json({ error: "user is not exit" });
+                return res
+                    .status(500)
+                    .json({ error: "user dont exist with that email" });
             }
-            
             user.resetToken = token;
-            user.exprieToken = Date.now() + 360000;
-
-            console.log("user.resetToken")
-
-            let transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: "rani19@navgurukul.org",
-                    pass: "navgurukul@19"
-                }
-            });
-            transporter.verify(function (error, success) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log("Server is ready to take our messages!");
-                }
-            });
-            const mail = {
-                to: user.email,
-                from: "no-replay@insta.com",
-                subject: "Password Reset",
-                html: `<p> you requested for password reset</p>
-            <h5>click on this <a href = "http://localhost:3000/${token}">link</a> to reset the password`
+            user.expireToken = Date.now() + 360000;
+            const result = await user.save();
+            if (result) {
+                transporter.sendMail({
+                    to: user.email,
+                    from: "rani19@navgurukul.org",
+                    subject: "Password Reset",
+                    html: `
+            <p> you requested for password reset</p>
+            <h5>click on this <a href = "http://localhost:3000/${token}">link</a> to reset the password
+            `
+                });
+                return res.status(200).json({ messege: "check your email", token });
             }
-            transporter.sendMail(mail, (err, data) => {
-                if (err) {
-                    return res.status(400).json({ status: 'fail' })
-                } else {
-                    return res.status(200).json({ messege: "check your email", token });
-                }
-            })
-        })
-
+        });
     } catch (err) {
-        return res.status(500).send("server error");
+        console.log(err);
+        res.status(500).send("server error");
     }
 }
 
@@ -86,8 +78,7 @@ exports.newPassword = async (req, res, next) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors });
     }
-
-    try {
+    try{
         const newPassword = req.body.password
         const resetToken = req.body.token
         const user = await User.findOne({ resetToken })
@@ -101,10 +92,10 @@ exports.newPassword = async (req, res, next) => {
 
         // console.log(user)
         const savedUser = user.save();
+        console.log('$2b$10$/RTd6aAZ4fcjvzTvhAhrXevTE3IyIdlkkgyvgRjKVLSQKPabngixK' === "$2b$10$/RTd6aAZ4fcjvzTvhAhrXevTE3IyIdlkkgyvgRjKVLSQKPabngixK")
         if (savedUser) {
             return res.json({ message: "password updated success" })
         }
-
     } catch (err) {
         console.log(err)
         return res.status(500).json("server error")

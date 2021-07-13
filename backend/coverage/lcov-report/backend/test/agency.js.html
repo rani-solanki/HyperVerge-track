@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.61% </span>
+                <span class="strong">89.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/23</span>
+                <span class='fraction'>26/29</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/6</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">88.46% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/20</span>
+                <span class='fraction'>23/26</span>
             </div>
         
             
@@ -113,39 +113,39 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,11 +158,11 @@ const agent = request.agent(App);
 beforeAll(async () =&gt; await db.connect());
 afterAll(async () =&gt; await db.close());
 &nbsp;
-const mockResponse = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
-    const res = <span class="cstat-no" title="statement not covered" >{}</span>
-<span class="cstat-no" title="statement not covered" >    res.status = jest.fn().mockReturnValue(res);</span>
-<span class="cstat-no" title="statement not covered" >    res.json = jest.fn().mockReturnValue(res);</span>
-<span class="cstat-no" title="statement not covered" >    return res</span>
+const mockResponse = () =&gt; {
+    const res = {}
+    res.status = jest.fn().mockReturnValue(res);
+    res.json = jest.fn().mockReturnValue(res);
+    return res
 }
 &nbsp;
 const Agency = () =&gt; describe("agency should be add in bus", ()=&gt;{
@@ -176,23 +176,23 @@ const Agency = () =&gt; describe("agency should be add in bus", ()=&gt;{
                 "agencyName": "laxmi agency",
                 "headOfficeLocation": "main"
             })
-        expect(res.status).toBe(200)
+<span class="cstat-no" title="statement not covered" >        expect(res.status).toBe(200)</span>
     })
 &nbsp;
-    // it("It should add the agency with status 200", async () =&gt; {
-    //     let req = {
-    //         body: {
-    //             "phone": 7782376487,
-    //             "agencyName": "laxmi agency",
-    //             "headOfficeLocation": "main"
-    //         }
-    //     }
-    //     const res = mockResponse()
-    //     await createAgency(req, res)
+    it("It should add the agency with status 200", async () =&gt; {
+        let req = {
+            body: {
+                "phone": 7782376487,
+                "agencyName": "laxmi agency",
+                "headOfficeLocation": "main"
+            }
+        }
+        const res = mockResponse()
+        await createAgency(req, res)
 &nbsp;
-    //     expect(res.status).toHaveBeenCalledWith(200)
-    //     expect(res.json).toHaveBeenCalled()
-    // })
+<span class="cstat-no" title="statement not covered" >        expect(res.status).toHaveBeenCalledWith(200)</span>
+<span class="cstat-no" title="statement not covered" >        expect(res.json).toHaveBeenCalled()</span>
+    })
 })
 &nbsp;
 module.exports = { Agency }</pre></td></tr></table></pre>
@@ -202,7 +202,7 @@ module.exports = { Agency }</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Jul 10 2021 18:41:10 GMT+0530 (India Standard Time)
+                at Mon Jul 12 2021 15:57:51 GMT+0530 (India Standard Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

@@ -17,6 +17,7 @@ const validations = (req)=>{
 }
 
 const adminSignup = async (req, res, next) => {
+    console.log(req.body)
     const error = validations(req)
     if (error) {
         return next({ status: 401, error: "validation error" })
@@ -43,4 +44,4 @@ const adminSignup = async (req, res, next) => {
     }
 }
 
-module.exports = {adminSignup}
+module.exports = { adminSignup }

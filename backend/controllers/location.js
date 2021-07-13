@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator');
 const Location = require('../models/location');
 
-
 exports.location = async (req, res) => {
+    console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -17,6 +17,7 @@ exports.location = async (req, res) => {
                         .status(400)
                         .json({ errors: [{ msg: "Location Already Exists" }] });
                 }
+                console.log("searchedCity")
             })
         }
         const location = new Location({

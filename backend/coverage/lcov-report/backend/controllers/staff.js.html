@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.96% </span>
+                <span class="strong">37.04% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/27</span>
+                <span class='fraction'>10/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">16.67% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.96% </span>
+                <span class="strong">37.04% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/27</span>
+                <span class='fraction'>10/27</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -121,11 +121,11 @@
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L65'></a><a href='#L65'>65</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -153,18 +153,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -173,8 +166,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -198,7 +198,7 @@ exports.addStaff = async (req, res, next) =&gt; {
             error: "validation error"
         });
     }
-&nbsp;
+    
     // decalearation 
     const {
         phone,
@@ -217,14 +217,14 @@ exports.addStaff = async (req, res, next) =&gt; {
 &nbsp;
     // add adminid in staff
     newstaff.adminId = req.user.id;
-    try {
+<span class="cstat-no" title="statement not covered" >    try {</span>
         // find the agency by user id
-        console.log(req.user.id)
-        let agencyInfo = await Agency.findOne({adminId: req.user.id});
-        console.log("agency from the staff collection", agencyInfo)
+<span class="cstat-no" title="statement not covered" >        console.log(req.user.id)</span>
+        let agencyInfo = <span class="cstat-no" title="statement not covered" >await Agency.findOne({adminId: req.user.id});</span>
+<span class="cstat-no" title="statement not covered" >        console.log("agency from the staff collection", agencyInfo)</span>
 &nbsp;
         // check whether agency is there or not
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (agencyInfo) {
+<span class="cstat-no" title="statement not covered" >        if (agencyInfo) {</span>
             let staff = <span class="cstat-no" title="statement not covered" >await Staffs.findOne({phone });</span>
 <span class="cstat-no" title="statement not covered" >            if (staff) {</span>
 <span class="cstat-no" title="statement not covered" >                return res.json({ "msg": "staff is already exit" });</span>
@@ -237,8 +237,8 @@ exports.addStaff = async (req, res, next) =&gt; {
 <span class="cstat-no" title="statement not covered" >            return res.status(200).json(staff);</span>
 &nbsp;
         } else {
-            console.log("Not found")
-            return res.status(404).json({"msg": "Not Found agency" })
+<span class="cstat-no" title="statement not covered" >            console.log("Not found")</span>
+<span class="cstat-no" title="statement not covered" >            return res.status(404).json({"msg": "Not Found agency" })</span>
         }
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >        console.log(err)</span>
@@ -256,7 +256,7 @@ exports.addStaff = async (req, res, next) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Jul 10 2021 18:41:10 GMT+0530 (India Standard Time)
+                at Mon Jul 12 2021 15:57:51 GMT+0530 (India Standard Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
