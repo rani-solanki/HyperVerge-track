@@ -1,6 +1,5 @@
 import axios from 'axios';
-import setAlert from './alert';
-
+import setAlert from './aleart';
 
 // Ragister user
 export const register = ({ name, email, password }) => async dispatch => {
