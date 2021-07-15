@@ -23,8 +23,8 @@ Step1-
     You can also check the version of NodeJS and npm by writing node -v and npm -v
 
 Step2 -
-    You need to make a clone of this repository and get into the repository on your terminal and hit the command "cd backend". Now, you need to install the required dependencies from your package.json. For this, you've to write sudo npm install.
-    
+    You need to make a clone of this repository and get into the repository on your terminal and hit the command git init for installing all defencies the run "cd backend". Now, you need to install the required dependencies from your package.json. For this, you've to write sudo npm install.
+
 step3 - 
     Open the repo in text editor,in backend, create a file default.json in config folder. Create an object "{ }" put "mongoURL" as a key and set your mongodb atlas url as the value of that key. put "jwtSecret" as a key and set a random string.
 
