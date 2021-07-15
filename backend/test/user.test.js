@@ -95,3 +95,29 @@ it("user should be able to login", async () => {
     expect(res.status).toBe(200)
 })
 
+describe("password should be reset", () => {
+    jest.setTimeout(30000);
+    it("admin should be reset password", async () => {
+        const res = await agent.post("/api/users/resetPassword").send({
+            "email": "gyandeep5364@gmail.com",
+        })
+        
+        expect(res.status).toBe(200)
+    })
+    
+    it('it should be confirm email', async () => {
+        let bodyData = {
+            body: {
+                "email": "aman67@navgurukul.org"
+            }
+        }
+        try {
+            const res = await resetPassword(bodyData)
+            expect(res.status).toBe(200);
+            expect(res.json).toBe("check your email");
+        } catch (err) {
+            console.log("reset useet password failed", err)
+        }
+    })
+})
+

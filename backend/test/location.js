@@ -17,7 +17,7 @@ const mockResponse = () => {
 const addLocation = () => describe("location should be add in bus", () => {
     console.log(3, "hello")
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYwZTgyMjBlNTQyODJmNTM3YWU1NGJkMyIsImlzQWRtaW4iOnRydWV9LCJpYXQiOjE2MjU4MjU4MDcsImV4cCI6MTY2MTgyNTgwN30.EFTeCEIjDeNoRnPZLQ0iXBsTxGIof70T5_DmpoA0nBQ"
-    jest.setTimeout(20000);
+    jest.setTimeout(40000);
     it("admin should be create add location ", async () => {
         const res = await agent.post("/api/admins/admin/location")
             .set('x-auth-token', token).send({
@@ -55,5 +55,5 @@ const addLocation = () => describe("location should be add in bus", () => {
     })
 })
 
-module.exports = { addLocation }
+module.exports = { addLocation };
 

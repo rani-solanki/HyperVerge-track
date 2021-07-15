@@ -17,7 +17,7 @@ const mockResponse = () => {
 const Agency = () => describe("agency should be add in bus", ()=>{
     console.log(4, "hello")
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYwZTI5NWM5YWMyYmZiMzI2ZWEzM2ZkOSIsImlzQWRtaW4iOnRydWV9LCJpYXQiOjE2MjU5MDE3NjQsImV4cCI6MTY2MTkwMTc2NH0.OXeDbZ48rxMygTyrvpyFVUY74LGZLCN6Gx8KEOwDfHU"
-    jest.setTimeout(20000);
+    jest.setTimeout(30000);
     it("admin should be add agency", async () => {
         const res = await agent.post("/api/admins/admin/agency")
             .set('x-auth-token', token).send({
