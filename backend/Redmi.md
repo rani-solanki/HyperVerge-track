@@ -18,6 +18,7 @@ after login user can get Json Web Token(JWT). that token we will everywhere.
 
 #### Installation process and Execution
 
+****
 Step1-  
     Install the latest version of NodeJS and npm. in your system, if it is not installed yet.
     You can also check the version of NodeJS and npm by writing node -v and npm -v
@@ -40,7 +41,7 @@ step5 -
         snap install postman
 
     Now open the the postmon and hit the api's
-
+****
 I hope you are able follow this step very easy to use my Github Repo.
 
                         ****** Thank You ******* 
