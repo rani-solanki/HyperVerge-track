@@ -9,8 +9,9 @@ const isAdmin = require('../../middleware/isAdmin');
 const { createAgency, getAgency } = require('../../controllers/Agency');
 const staffController = require('../../controllers/staff')
 
+
 // admin signup;
-router.post('/', [
+router.post('/signup', [
   check('name', "name is required").not().isEmpty(),
   check('email', 'please inclde unique and valid email').isEmail(),
   check('password', 'please enter the sward passward').isLength({ min: 6 }),
@@ -57,7 +58,7 @@ router.post('/admin/addStaff', [isAuth, isAdmin, [
 ]], staffController.addStaff)
 
 // Add bus
-router.post('/admin/Addbus', [isAuth, isAdmin, [
+router.post('/admin/Addbus',isAuth, isAdmin, [
   check("busName", "enter the bus name").not().isEmpty(),
   check("agency", "enter the bus agency").not().isEmpty(),
   check("vehicleNo", "enter the vehicle no.").not().isEmpty(),
@@ -70,15 +71,16 @@ router.post('/admin/Addbus', [isAuth, isAdmin, [
   check('to', 'dropping point of the bus is required').not().isEmpty(),
   check('busStaff', "busStaff is required").not().isEmpty(),
   check("arrivalTime", "enter the arrivalTime").not().isEmpty(),
-  check("departureTime", "enter the departureTime").not().isEmpty()]],
+  check("departureTime", "enter the departureTime").not().isEmpty()],
   CreateBus
 );
 
-// resetBus
-router.get('/admin/buses/:busId/resetBus', isAuth, isAdmin, resetBus);
+// resetBus by delete the tickets
+router.delete('/admin/buses/:busId/resetBus', isAuth, isAdmin, resetBus);
 
 // delete bus 
 router.delete('/admin/buses/:busId/cancel', isAuth, isAdmin, cancelBus);
 
 module.exports = router;
+
 

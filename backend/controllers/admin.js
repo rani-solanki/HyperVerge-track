@@ -16,7 +16,7 @@ const validations = (req)=>{
     }
 }
 
-const adminSignup = async (req, res, next) => {
+const adminSignup = async (req, res, next)=>{
     console.log(req.body)
     const error = validations(req)
     if (error) {

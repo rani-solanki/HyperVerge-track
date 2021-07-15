@@ -133,7 +133,6 @@ exports.cancelBus = async (req, res) => {
 // reset bus
 exports.resetBus = async (req, res) => {
     try {
-        
         const busId = req.params.busId
         console.log(busId)
         const bus = await Bus.findOne({ _id: busId });
