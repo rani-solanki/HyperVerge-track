@@ -1,14 +1,14 @@
-#### Bus Booking Ticket Website -
+### Bus Booking Ticket Website -
 Created a Bus Ticket Booking Website using MongoDB, Express, and Node.
 
-## user can signup and login, 
+### user can signup and login, 
 
 ****
 This app is allows to user and admin can signup and login app
 after login user can get Json Web Token(JWT). that token we will everywhere.
 ****
 
-### next process. 
+### Next process. 
 *** admin *** 
 1. Create bus,add saff, add agency, add location, view all tickets and Reset bus.
 
