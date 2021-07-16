@@ -1,6 +1,11 @@
 import {
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    REGISTER_FAIL,
+    AUTH_ERROR,
+    LOGIN_SUCCESS,
+    LOGIN_ERROR,
+    LOGOUT
+    
 } from '../actions/type';
 
 const initialState = {
@@ -14,9 +19,18 @@ const auth = function (state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
+        case USER_LOADED:
+            return {
+                ...state,
+                isAuthenticated:true,
+                loading: false,
+                user: payload
+            }
         case REGISTER_SUCCESS:
+        case LOGIN_SUCCESS:
+        case LOGOUT:
+        case AUTH_ERROR:
             localStorage.setItem('token', payload.token)
-
             return {
                 ...state,
                 ...payload,

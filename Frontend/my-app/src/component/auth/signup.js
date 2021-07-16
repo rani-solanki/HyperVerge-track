@@ -5,7 +5,7 @@ import setAlert from '../../action/aleart';
 import { register } from '../../action/auth';
 import PropTypes from 'prop-types'
 
-const Register = ({setAlert, register}) => {
+const Register = ({ setAlert, register }) => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -19,9 +19,10 @@ const Register = ({setAlert, register}) => {
     const onSubmit = async e => {
         e.preventDefault();
         if (password !== password2) {
+            // alert('Passwords do not match', 'danger')
             setAlert('Passwords do not match', 'danger');
         } else {
-            register({name, email, password});
+            register({ name, email, password });
         }
     };
     return (
@@ -63,11 +64,10 @@ const Register = ({setAlert, register}) => {
             </div>
         </Fragment>
     );
-
     Register.propTypes = {
         setAlert: PropTypes.func.isRequired,
         register: PropTypes.func.isRequired
     }
 }
 
-export default connect(null, {setAlert,register})(Register);
+export default connect(null, { setAlert, register })(Register);
