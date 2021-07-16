@@ -26,7 +26,7 @@ const getSignedJwtToken = function (
 };
 
 exports.loginuser = async (req, res, next)=>{   
-     // Done validation 
+    // Done validation 
     const error = validations(req);
     if (error) {
         next(error)
@@ -39,7 +39,9 @@ exports.loginuser = async (req, res, next)=>{
         if (!user) {
             return res.status(400).json({ errors: [{ msg: "invalid Email or passward" }] })
         }
+        console.log(user)
         const isMatch = await bcrypt.compare(password, user.password);
+        console.log(isMatch)
         if (!isMatch) { return res.status(400).json({ errors: [{ msg: "invalid passward" }] }) }
 
         const payload = { user: { id: user._id } }

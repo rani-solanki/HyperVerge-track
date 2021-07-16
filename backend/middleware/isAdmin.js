@@ -1,5 +1,5 @@
 const User = require('../models/users');
-
+console.log("admin")
 module.exports = async (req, res, next) =>{
     console.log("welcome")
     const isAdmin = req.user.isAdmin;

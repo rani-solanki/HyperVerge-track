@@ -27,7 +27,7 @@ router.post('/admin/:busId', isAuth, [
 ])
 
 // add location 
-router.post('/admin/location', isAuth, isAdmin, [
+router.post('/admin/location', isAuth, isAdmin,[
   check('city', 'please inclde unique and valid email').not().isEmail(),
   check('state', 'please enter the passward').not().isEmpty()
 ], locaController.location)
