@@ -333,7 +333,7 @@ button {
 /* Landing Page */
 .landing {
   position: relative;
-  background: url('./image/Red_bus.jpeg') no-repeat center center/cover;
+  background: url('./image/buss.c6d0429f.gif') no-repeat center center/cover;
   height: 100vh;
 }
 
@@ -357,7 +357,7 @@ button {
 
 body {
   position: relative;
-  background: url('./image/newBus.jpeg') no-repeat center center/cover;
+  background: url('./image/lejRej.jpeg') no-repeat center center/cover;
   height: 100vh;
   min-height: 100vh;
   display: flex;
@@ -425,4 +425,7 @@ body, html, .App, #root, .auth-wrapper {
 .forgot-password a {
   color: #167bff;
 }
+
+/* search bar */
+
 
