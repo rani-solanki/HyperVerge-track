@@ -2,30 +2,31 @@ import React, { Fragment, useState } from "react";
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import setAlert from '../../action/aleart';
-import { register } from '../../action/auth';
-import PropTypes from 'prop-types'
+import {adminregister} from '../../action/auth'; 
+import PropTypes from 'prop-types';
 
-const Register = ({ setAlert, register }) => {
+const Signup = ({ setAlert, adminregister }) =>{
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         password: "",
         password2: "",
+        isAdmin:" "
     });
-
-    const { name, email, password, password2 } = formData;
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     
+    const { name, email, password, password2,isAdmin } = formData;
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
     const onSubmit = async e => {
         e.preventDefault();
         if (password !== password2) {
             alert('Passwords do not match', 'danger')
             setAlert('Passwords do not match', 'danger');
         } else {
-            register({ name, email, password });
+            alert('user Ragister successfully', 'danger')
+            adminregister({ name, email, password, isAdmin});
         }
     };
-
     return (
         <Fragment>
             <div style={{
@@ -57,18 +58,23 @@ const Register = ({ setAlert, register }) => {
                         <input type="password" className="form-control" placeholder="Enter password" name='password2' value={password2}
                             onChange={e => onChange(e)} />
                     </div>
+                    <div className="form-group">
+                        <label>isAdmin</label>
+                        <input type="password" className="form-control" placeholder="Enter true and false" name='isAdmin' value={isAdmin}
+                            onChange={e => onChange(e)} />
+                    </div>
                     <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                     <p className="forgot-password text-left">
-                        Already registered <Link to="/adminLogin">sign in?</Link>
+                        Already registered <Link to="/adminlogin">sign in?</Link>
                     </p>
                 </form>
             </div>
         </Fragment>
     );
-    Register.propTypes = {
+    Signup.propTypes = {
         setAlert: PropTypes.func.isRequired,
         register: PropTypes.func.isRequired
     }
 }
 
-export default connect(null, { setAlert, register })(Register);
+export default connect(null, { setAlert, adminregister })(Signup);

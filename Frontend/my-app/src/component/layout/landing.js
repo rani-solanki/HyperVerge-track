@@ -12,9 +12,8 @@ export const Landing = () => {
                     <div className="buttons">
                     <Link to ="register" className ="btn btn-primary">sing up</Link>
                     <Link to="login" className="btn btn-light">Login</Link>
-                    <Link to="admin signup" className="btn btn-primary">Admin Signup</Link>
-                        <Link to="login" className="btn btn-light"> Admin Login</Link>
-                        
+                    <Link to="signup" className="btn btn-primary">Admin Signup</Link>
+                    <Link to="adminLogin" className="btn btn-light"> Admin Login</Link>
                     </div>
                 </div>
             </div>

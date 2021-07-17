@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { login } from '../../action/auth';
+import {adminlogin} from '../../action/auth';
 import PropTypes from 'prop-types';
 
 const Login = ({
-    login,
+    adminlogin,
     isAuthenticated
 }) => {
     const [formData, setFormData] = useState({
@@ -13,13 +13,13 @@ const Login = ({
         password: ""
     });
 
-    const { email, password  } = formData;
+    const { email, password } = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
         console.log(formData)
-        login(email, password );
+        adminlogin(email, password);
     }
     return (
         <Fragment>
@@ -43,7 +43,7 @@ const Login = ({
                         <input type="password" className="form-control" placeholder="Enter password" name='password' value={password}
                             onChange={e => onChange(e)} />
                     </div>
-                    
+
                     <div className="form-group" >
                         <div className="custom-control custom-checkbox">
                             <input type="checkbox" className="custom-control-input" id="customCheck1" />
@@ -55,8 +55,9 @@ const Login = ({
                         Forgot <Link to="#">password?</Link>
                     </p>
                     <p className='my-1'>
-                        Don't have an account? <Link to='/register'>Sign up</Link>
+                        Don't have an account? <Link to='/signup'>Sign up</Link>
                     </p>
+
                 </form>
             </div>
         </Fragment>
@@ -65,9 +66,5 @@ const Login = ({
         login: PropTypes.func.isRequired,
         isAuthenticated: PropTypes.bool
     }
-    // const mapStateToProps = state => ({
-    //     isAuthenticated: state.auth.isAuthenticated
-    // });
 }
-
-export default connect(null, { login })(Login);
+export default connect(null, { adminlogin })(Login);
