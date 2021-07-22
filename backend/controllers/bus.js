@@ -32,9 +32,9 @@ exports.CreateBus = async (req, res, next)=>{
             })
         }
         const { busName, vehicleNo,
-            seats, busType,
+            seats, busType, agency,
             seatCategory, policy,
-            images, from, to, busStaff,
+            images, from, to, busStaff, secdule,
             arrivalTime, departureTime,
         } = req.body;
 
@@ -47,6 +47,7 @@ exports.CreateBus = async (req, res, next)=>{
             }
             bus_size.push(row);
         }
+
         const busDetails = {
             busName: req.body.busName,
             vehicleNo: req.body.vehicleNo,
@@ -57,7 +58,7 @@ exports.CreateBus = async (req, res, next)=>{
             images: req.body.images,
             from: req.body.from,
             to: req.body.to,
-            // busStaff: req.body.busStaff,
+            secdule:req.body.secdule,
             arrivalTime: req.body.arrivalTime,
             departureTime: req.body.departureTime
         }
@@ -74,7 +75,9 @@ exports.CreateBus = async (req, res, next)=>{
         busDetails.to = toLocation._id;
 
         // add agency 
-        let agencyProfile = await Agency.findOne({ agent: req.user.id });
+        let agencyProfile = await Agency.findOne({agencyName:agency});
+        console.log(agencyProfile)
+
         if (!agencyProfile) { return res.status(404).json({ msg: "No such agency found" }) }
         busDetails.agency = agencyProfile._id
 
@@ -109,6 +112,52 @@ exports.getBus = async (req, res) => {
         return res.status(200).json(bus);
     } catch (err) {
         res.status(500).json({ msg: "server Error" });
+    }
+};
+
+// search bus
+exports.searchBus = async (req, res)=>{
+    console.log("backend part")
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    
+    const { from, to, date } = req.body
+    console.log(from,to,date)
+    try {
+        var source = await locationSearch(to);
+        const city = to["city"]
+        const state = to["state"]
+        console.log(city,state)
+        let destination  = await Location.findOne({ $and: [{ city }, { state }] });
+        console.log("destination", destination)
+        console.log("source", source)
+
+        if (!destination || !source) {
+            console.log("Not Found")
+            return res.status(400).json([]);
+        }
+
+        let buses = await Bus.find({
+            $and: [{ to: destination }, { from: source }],
+        });
+        console.log("buses",buses)
+        if (!buses) {
+            return res.status(400).json([]);
+        }
+        buses = buses.filter((bus) => {
+            if (bus.secdule.includes(date)){
+                return bus;
+            }
+        });
+        if (buses.isEmpty) {
+            return res.status(400).json([]);
+        }
+        return res.status(200).json(buses);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: "server error" });
     }
 };
 

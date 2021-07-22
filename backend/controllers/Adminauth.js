@@ -37,10 +37,12 @@ const adminLogin = async (req, res, next) => {
     const { email, password} = req.body;
     try {
         let admin = await User.findOne({ email });
+        console.log(admin)
         if (!admin) {
             return res.status(400).json({ errors: [{ msg: "invalid Email or passward" }] })
         }
         const isMatch = await bcrypt.compare(password, admin.password);
+        console.log(isMatch)
         if (!isMatch) { return res.status(400).json({ errors: [{ msg: "invalid passward" }] }) }
         const isAdmin = admin.isAdmin
         const payload = {
@@ -49,10 +51,10 @@ const adminLogin = async (req, res, next) => {
                 isAdmin
             }
         }
+        const token = getSignedJwtToken(payload)
+        console.log("jkshgdk", token)
         
-        const result = getSignedJwtToken(payload)
-        console.log(result)
-        return res.status(200).json({ result })
+        return res.status(200).json({ token })
     }
     catch (err) {
         return res.status(500).json({"msg":"server error"})

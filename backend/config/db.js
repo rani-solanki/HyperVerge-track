@@ -14,7 +14,7 @@ const db = config.get("mongoURL");
             useUnifiedTopology: true,
             keepAlive: 1
         };
-
+        
         // Provide connection to a new in-memory database server.
         const connect = async () => {
             // NOTE: before establishing a new connection close previous

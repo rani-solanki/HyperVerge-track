@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const dbConnect = require('./config/db.js');
 var errorhandler = require('errorhandler')
+const cookieParser = require('cookie-parser');
+
 var cors = require('cors')
 const app = express()
 app.use(cors())

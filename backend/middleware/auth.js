@@ -8,10 +8,11 @@ module.exports = function (req, res, next) {
     }
     try {
         const Result = jwt.verify(token, config.get("jwtSecret"));
-        req.user = Result.user
-        console.log("message", req.user)
+        // console.log(Result)
+        req.user = Result.admin
+        // console.log("message", req.user)
         next();
-        
+
     } catch (err) {
         console.log("from auth ",err)
         res.status(401).json({ msg: "Token is not valid" });

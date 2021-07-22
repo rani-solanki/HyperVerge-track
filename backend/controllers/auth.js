@@ -1,4 +1,4 @@
-const {validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -25,12 +25,13 @@ const getSignedJwtToken = function (
     return jwt.sign(payload, secret, { expiresIn });
 };
 
-exports.loginuser = async (req, res, next)=>{   
+exports.loginuser = async (req, res, next) => {
     // Done validation 
     const error = validations(req);
+    console.log(error)
     if (error) {
         next(error)
-        return res.status(400).json({"validations error":error});
+        return res.status(400).json({ "validations error": error });
     }
 
     const { email, password } = req.body;
@@ -39,17 +40,15 @@ exports.loginuser = async (req, res, next)=>{
         if (!user) {
             return res.status(400).json({ errors: [{ msg: "invalid Email or passward" }] })
         }
-        console.log(user)
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log(isMatch)
         if (!isMatch) { return res.status(400).json({ errors: [{ msg: "invalid passward" }] }) }
 
         const payload = { user: { id: user._id } }
-        
-        const result = getSignedJwtToken(payload)
-        return res.status(200).json({result})
+
+        const token = getSignedJwtToken(payload)
+        return res.status(200).json({ token })
     }
-    catch (err){
+    catch (err) {
         return res.status(500).json('server error')
     }
 }

@@ -3,7 +3,7 @@ const router = express.Router();
 const { check } = require('express-validator');
 const { adminSignup } = require('../../controllers/admin');
 const locaController = require('../../controllers/location');
-const { CreateBus, getBus, resetBus, cancelBus } = require('../../controllers/bus');
+const { CreateBus, getBus, resetBus, cancelBus,searchBus } = require('../../controllers/bus');
 const isAuth = require('../../middleware/auth');
 const isAdmin = require('../../middleware/isAdmin');
 const { createAgency, getAgency } = require('../../controllers/Agency');
@@ -70,10 +70,18 @@ router.post('/admin/Addbus',isAuth, isAdmin, [
   check('from', 'boarding point of the bus is required').not().isEmpty(),
   check('to', 'dropping point of the bus is required').not().isEmpty(),
   check('busStaff', "busStaff is required").not().isEmpty(),
+  check('secdule', "secdule is required").not().isEmpty(),
   check("arrivalTime", "enter the arrivalTime").not().isEmpty(),
   check("departureTime", "enter the departureTime").not().isEmpty()],
   CreateBus
 );
+
+// search bus
+router.post('/',isAuth, [
+  check('from', "from is required").not().isEmpty(),
+  check('to', "to is required").not().isEmpty(),
+  check('date', "date is required").not().isEmpty()
+], searchBus);
 
 // resetBus by delete the tickets
 router.delete('/admin/buses/:busId/resetBus', isAuth, isAdmin, resetBus);
@@ -82,5 +90,4 @@ router.delete('/admin/buses/:busId/resetBus', isAuth, isAdmin, resetBus);
 router.delete('/admin/buses/:busId/cancel', isAuth, isAdmin, cancelBus);
 
 module.exports = router;
-
 

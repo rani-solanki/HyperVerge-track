@@ -7,7 +7,6 @@ describe("Test suite for isAdmin midleware", () => {
         let req = {
             user: { isAdmin: true }
         }
-
         let res;
         const next = jest.fn()
 

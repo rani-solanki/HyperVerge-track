@@ -5,12 +5,14 @@ const { check } = require('express-validator');
 const userLoginController = require('../../controllers/auth')
 const resetPasswordController = require('../../controllers/resetPassword');
 
+
 // user Authrigation
-router.get('/isAuth', isAuth, async (req, res) => {
+router.get('/Auth', isAuth, async (req, res) => {
     try {
+        console.log(req.user.id)
         const user = await User.findById(req.user.id)
+        console.log(user)
         return res.json(user)
-        
     } catch (err) {
         return res.status(500).send('server error')
     }

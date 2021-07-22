@@ -35,6 +35,10 @@ const busSchema = new mongoose.Schema({
         ref: 'Staffs',
         required: true
     },
+    secdule: {
+        type: Array,
+        required:true
+    },
     policy: {
         type: String,
         required: true

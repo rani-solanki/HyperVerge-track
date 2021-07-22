@@ -5,12 +5,12 @@ const getAgency = async (req, res, next) => {
   try {
     const agent = req.user.id
     const agency = await Agency.findOne({ agent }).populate('agent')
-
     console.log(agency)
+
     if (!agency) {
       return res.status(400).json({ msg: "Thereis no profile for this admin" });
     }
-
+    
     res.status(200).json(agency);
   } catch (err) {
     console.log(err)
@@ -30,7 +30,7 @@ const createAgency = async (req, res) => {
 
   const agencyFields = { phone, agencyName, headOfficeLocation };
   // agencyFields.agent = req.user.admin.id;
-
+  
   try {
     let agencyProfile = await Agency.findOne({ agent: req.user.id});
     console.log(agencyProfile)
