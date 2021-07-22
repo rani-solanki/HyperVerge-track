@@ -13,19 +13,18 @@ const Navbar = ({isAuthenticated,loading}) => {
                 <i className="fas fa-sign-out-alt">{'   '}Logou</i></a></li>
         </ul>
     )
-    
     const guestLinks = (
         <ul>
             <li><Link to="/about">About</Link> </li>
-            <li><Link to="/signup">Admin Register </Link></li>
-            <li><Link to="/adminLogin">Login</Link></li>
+            {/* <li><Link to="/signup">Admin Register </Link></li> */}
+            {/* <li><Link to="/adminLogin">Login</Link></li> */}
+            <li><Link to="/">logout</Link></li>
         </ul>
     )
-
     return (
         <nav className="navbar bg-dark">
             <h1>
-                <Link to="/">Home</Link>
+                <Link to="/"> safePlus </Link>
             </h1>
             {!loading && (<Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>)}
         </nav>
@@ -33,22 +32,3 @@ const Navbar = ({isAuthenticated,loading}) => {
 }
 
 export default Navbar;
-// return (
-//     <nav className="navbar bg-dark">
-//         <h1>
-//             <Link to="/"><i className="fas fa-code"></i> Home</Link >
-//         </h1>
-//         <li>
-//             <Link to="/register">Register</Link>
-//         </li>
-//         <li>
-//             <Link to="/login">Login</Link>
-//         </li>
-//         <li>
-//             <a onClick={logout} href="#!">
-//                 <i className="fas fa-sign-out-alt"></i>{' '}
-//                 <span className='hide-sm'>Logout</span>
-//             </a>
-//         </li>
-//     </nav>
-// )

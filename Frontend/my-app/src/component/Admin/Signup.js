@@ -2,29 +2,28 @@ import React, { Fragment, useState } from "react";
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import setAlert from '../../action/aleart';
-import {adminregister} from '../../action/auth'; 
+import { adminregister } from '../../action/auth';
 import PropTypes from 'prop-types';
 
-const Signup = ({ setAlert, adminregister }) =>{
+const Signup = ({ setAlert, adminregister, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         password: "",
         password2: "",
-        isAdmin:" "
+        isAdmin: " "
     });
-    
-    const { name, email, password, password2,isAdmin } = formData;
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    const { name, email, password, password2, isAdmin } = formData;
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     const onSubmit = async e => {
         e.preventDefault();
         if (password !== password2) {
             alert('Passwords do not match', 'danger')
             setAlert('Passwords do not match', 'danger');
         } else {
-            alert('user Ragister successfully', 'danger')
-            adminregister({ name, email, password, isAdmin});
+            adminregister({ name, email, password, isAdmin });
+            return <Redirect to="/adminLogin" />
         }
     };
     return (
@@ -73,8 +72,11 @@ const Signup = ({ setAlert, adminregister }) =>{
     );
     Signup.propTypes = {
         setAlert: PropTypes.func.isRequired,
-        register: PropTypes.func.isRequired
+        register: PropTypes.func.isRequired,
+        isAuthenticated:PropTypes.func.isRequired
     }
+    const mapStateToProps = state => ({
+        isAuthenticated: state.auth.isAuthenticated
+    });
 }
-
 export default connect(null, { setAlert, adminregister })(Signup);

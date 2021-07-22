@@ -25,7 +25,6 @@ const Register = ({ setAlert, register }) => {
             register({ name, email, password });
         }
     };
-
     return (
         <Fragment>
             <div style={{
@@ -59,7 +58,7 @@ const Register = ({ setAlert, register }) => {
                     </div>
                     <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                     <p className="forgot-password text-left">
-                        Already registered <Link to="/adminLogin">sign in?</Link>
+                        Already registered <Link to="/login">sign in?</Link>
                     </p>
                 </form>
             </div>

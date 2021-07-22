@@ -5,30 +5,29 @@ import setAuthToken from '../utils/isAuthantication';
 import {
     USER_LOADED,
     AUTH_ERROR,
-    SET_ALERT,
-    REMOVE_ALERT,
     REGISTER_FAIL,
     REGISTER_SUCCESS,
     LOGIN_SUCCESS,
-    LOGIN_ERROR,
     LOGIN_FAIL,
     LOGOUT
+
 } from '../action/type';
 
 // // LOAD USER
 export const loadUser = () => async dispatch => {
+    // console.log(localStorage.token)
     if (localStorage.token) {
         setAuthToken(localStorage.token);
     }
     try {
-        console.log("start")
-        const res = await axios.get('http://localhost:1900/api/auth/isAuth');
+        const res = await axios.get('http://localhost:1900/api/auth/Auth');
         console.log(res)
         dispatch({
             type: USER_LOADED,
             payload: res.data
         });
     } catch (err) {
+        console.log("louduser err",err)
         dispatch({
             type: AUTH_ERROR
         });
@@ -51,8 +50,8 @@ export const register = ({ name, email, password }) => async dispatch =>{
         // dispatch(loadUser());
     } catch (err) {
         const errors = err.response.data.err;
+        alert("user is Aleardy exit")
         if (errors) {
-            alert("user is Aleardy exit")
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }
         dispatch({
@@ -74,10 +73,12 @@ export const adminregister = ({ name, email, password, isAdmin }) => async dispa
             type: REGISTER_SUCCESS,
             payload: res.data
         });
+
+        alert("Admin Ragister succesfully")
     } catch (err) {
         const errors = err.response.data.err;
+        alert("user is Aleardy exit")
         if (errors) {
-            alert("user is Aleardy exit")
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }
         dispatch({
@@ -96,16 +97,17 @@ export const login = (email, password) => async dispatch => {
     const body = JSON.stringify({ email, password });
     try {
         const res = await axios.post('http://localhost:1900/api/auth/login', body, config);
-        console.log(res)
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
         });
+        console.log("discpatch from action",dispatch)
+        alert("User is Login Succesfully")
         // dispatch(loadUser());
     } catch (err) {
-        // console.log(err)
         const errors = err.response.data.errors;
         if (errors) {
+            alert("Invalid credentials")
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }
         dispatch({
@@ -121,20 +123,23 @@ export const adminlogin = (email, password) => async dispatch => {
             'Content-Type': 'application/json'
         }
     }
-    
+
     const body = JSON.stringify({ email, password });
 
     try {
+        console.log(email,password)
         const res = await axios.post('http://localhost:1900/api/adminauth/login', body, config);
+        console.log(res)
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
         });
+        alert("Admin is Login Succesfully")
         dispatch(loadUser());
     } catch (err) {
-        console.log(err)
         const errors = err.response.data.errors;
         if (errors) {
+            alert("Invalid credentials")
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }
         dispatch({
@@ -146,5 +151,6 @@ export const adminlogin = (email, password) => async dispatch => {
 export const logout = () => dispatch => {
     dispatch({ type: LOGOUT });
 }
+
 
 

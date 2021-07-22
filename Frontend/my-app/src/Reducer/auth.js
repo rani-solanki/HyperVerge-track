@@ -1,23 +1,24 @@
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
+    USER_LOADED,
     AUTH_ERROR,
     LOGIN_SUCCESS,
-    LOGIN_ERROR,
+    LOGIN_FAIL,
+    BUS_FOUND,
+    BUSNOT_FOUND,
     LOGOUT
-    
-} from '../actions/type';
+} from '../action/type';
 
 const initialState = {
     token: localStorage.getItem('token'),
-    isAuthenticated: null,
+    isAuthenticated: false,
     loading: true,
     user: null
 }
 
-const auth = function (state = initialState, action) {
+const auth = function (state = initialState, action){
     const { type, payload } = action;
-
     switch (type) {
         case USER_LOADED:
             return {
@@ -28,8 +29,16 @@ const auth = function (state = initialState, action) {
             }
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-        case LOGOUT:
-        case AUTH_ERROR:
+            localStorage.setItem('token', payload.token);
+            return {
+                ...state,
+                ...payload,
+                isAuthenticated: true,
+                loading: false,
+                // user: payload
+
+            }
+        case BUS_FOUND:
             localStorage.setItem('token', payload.token)
             return {
                 ...state,
@@ -38,6 +47,10 @@ const auth = function (state = initialState, action) {
                 loading: false
             }
         case REGISTER_FAIL:
+        case AUTH_ERROR:
+        case BUSNOT_FOUND:
+        case LOGIN_FAIL:
+        case LOGOUT:
             localStorage.removeItem('token');
             return {
                 ...state,
@@ -45,10 +58,8 @@ const auth = function (state = initialState, action) {
                 isAuthenticated: false,
                 loading: false
             }
-
         default:
             return state
     }
 }
-
 export default auth;
