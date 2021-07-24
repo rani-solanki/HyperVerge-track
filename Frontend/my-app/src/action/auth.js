@@ -47,7 +47,7 @@ export const register = ({ name, email, password }) => async dispatch =>{
             payload: res.data
         });
         alert('user Ragister SuccesFully', 'danger')
-        // dispatch(loadUser());
+        dispatch(loadUser());
     } catch (err) {
         const errors = err.response.data.err;
         alert("user is Aleardy exit")
@@ -103,7 +103,7 @@ export const login = (email, password) => async dispatch => {
         });
         console.log("discpatch from action",dispatch)
         alert("User is Login Succesfully")
-        // dispatch(loadUser());
+        dispatch(loadUser());
     } catch (err) {
         const errors = err.response.data.errors;
         if (errors) {

@@ -28,9 +28,11 @@ app.use(errorhandler);
 app.use((err, req, res, next) => {
     console.log(err)
     return res.status(err.status).json(err)
-})
+})         
+
+var port = process.env.PORT || 1900;
+app.listen(port, function () {
+    console.log('Example app listening on port ' + port + '!');
+});
 
 module.exports = app
-app.listen(1900, () => {
-    console.log("server is runing")
-})

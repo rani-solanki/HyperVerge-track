@@ -2,144 +2,84 @@ import React, { Fragment, useState } from "react";
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import setAlert from '../../action/aleart';
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
+import './bus.css';
+import { BUSNOT_FOUND } from "../../action/type";
 import BusNotFound from './BusNotFound';
 
-const Buses = ({ searchBuses: { buses, loading } }) =>{
-    let travelDate = localStorage.getItem('travelDate');
-    travelDate = new Date(travelDate)
-    const month = travelDate.toLocaleString('default', { month: 'short' })
-    const date = travelDate.getDate()
+const Buses = ({searchBuses})=>{
     return (
         <Fragment>
-            {buses.length === 0 ? (
-                <BusNotFound />
-            ) : (
-                <Fragment>
-                    <div class="fluid-container pb-5">
-                        {buses.map((bus) => (
-                            <div class="row mb-5">
-                                <div class="card w-100">
-                                    <div class="card-header d-flex flex-direction-column justify-content-between">
-                                        <div>
-                                            <h4 class="agencyName">{bus.agency.agencyName}</h4>
-                                            <h6 class="busName">{bus.busName}</h6>
-                                            <h6>{bus.busType}/ {bus.seatCategory}</h6>
-                                        </div>
-                                        <div>
-                                            <h6>{bus.arrivalTime}</h6>
-                                            <h6>{bus.from.city}, {bus.from.state}</h6>
-                                            <h6>{date} {month}</h6>
-                                        </div>
-                                        <div>
-                                            <h6>{bus.departureTime}</h6>
-                                            <h6>{bus.to.city}, {bus.to.state}</h6>
-                                        </div>
-                                        <div>
-                                            <h6>Fare</h6>
-                                            <h6 class="fare">Rs {bus.fare}</h6>
-                                        </div>
-                                        <div>
-                                            <h6 class="seatsLeft">Total 52 seats left</h6>
-                                            <h6 class="windowSeats">27 window seats</h6>
+            <div class="card box-size" >
+                <div class="card-header">
+                    Available Buses
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="card-body">
+                    <div className="col-12">
+                        <div className="row">
+                            <div className="col">
+                                <h5 className="card-title">Laxmi bus service</h5>
+                                <div className="row">
+                                    <div className="col">
+                                        Arrival Time
+                                    </div>
+                                    <div className="col">
+                                        Departure Time
+                                    </div>
+                                    <div className="col">
+                                        <h6>Fare</h6>
+                                        <h6 class="fare">Rs {500}</h6>
+                                    </div>
+                                    <div class="dropdown reviews mb-0">
+                                        <button
+                                            class="btn btn-secondary dropdown-toggle"
+                                            type="button"
+                                            id="dropdownMenu2"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                        >
+                                            Reviews
+                                        </button>
+                                        <div
+                                            class="dropdown-menu"
+                                            aria-labelledby="dropdownMenu2"
+                                        >
+                                            <h5 class="dropdown-item" type="button">
+                                                Awesome
+                                            </h5>
                                         </div>
                                     </div>
-                                    <div class="card-body d-flex flex-direction-column justify-content-between align-items-end">
+                                    <div className="col">
+                                        image
+                                    </div>
+                                    <div>
+                                        <h6 class="seatsLeft">Total 52 seats left</h6>
+                                        <h6 class="windowSeats">27 window seats</h6>
                                         <a href="#" class="btn btn-primary">
                                             Select Seats
                                         </a>
-                                        <div class="dropdown policies mb-0">
-                                            <button
-                                                class="btn btn-secondary dropdown-toggle"
-                                                type="button"
-                                                id="dropdownMenu1"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false"
-                                            >
-                                                Policies
-                                            </button>
-                                            <div
-                                                class="dropdown-menu"
-                                                aria-labelledby="dropdownMenu1"
-                                            >
-                                                <p class="dropdown-item">
-                                                    {bus.policy}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown images mb-0">
-                                            <button
-                                                class="btn btn-secondary dropdown-toggle"
-                                                type="button"
-                                                id="dropdownMenu2"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false"
-                                            >
-                                                images
-                                            </button>
-                                            <div
-                                                class="dropdown-menu"
-                                                aria-labelledby="dropdownMenu2"
-                                            >
-                                                {
-                                                    bus.images.map(image => (
-                                                        <img
-                                                            class="d-block w-100"
-                                                            src={image}
-                                                            alt="Third slide"
-                                                        />
-                                                    ))
-                                                }
-
-                                            </div>
-                                        </div>
-                                        <div class="dropdown reviews mb-0">
-                                            <button
-                                                class="btn btn-secondary dropdown-toggle"
-                                                type="button"
-                                                id="dropdownMenu2"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false"
-                                            >
-                                                Reviews
-                                            </button>
-                                            <div
-                                                class="dropdown-menu"
-                                                aria-labelledby="dropdownMenu2"
-                                            >
-                                                <h5 class="dropdown-item" type="button">
-                                                    Awesome
-                                                </h5>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group dropleft staff mb-0">
-                                            <button
-                                                id="dropdownMenu2"
-                                                class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                            >
-                                                staff
-                                            </button>
-                                            <div
-                                                class="dropdown-menu"
-                                                aria-labelledby="dropdownMenu3"
-                                            >
-                                                <h6 class="dropdown-item">Driver : {bus.driver.name}</h6>
-                                                <h6 class="dropdown-item">Helper: {bus.helper.name}</h6>
-                                                <h6 class="dropdown-item r-0">Emergency No: {bus.agency.phone}</h6>
-                                            </div>
-                                        </div>
+                                        <p className="forgot-password text-left">
+                                            Are you want to Book Tickets<Link to="/bookTickets">select seat</Link>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        </div>
                     </div>
-                </Fragment>
-            )}
+                </div>
+            </div>
+            ))
         </Fragment>
-
     )
 }
-export default connect(null, { setAlert })(Buses);
+Buses.propTypes = {
+    searchBuses: propTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+    searchBuses: state.searchBuses,
+});
+
+export default connect(mapStateToProps)(Buses);

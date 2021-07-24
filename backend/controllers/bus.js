@@ -9,6 +9,7 @@ const { locationSearch, search } = require('../Serches/searchLocation');
 const { ticketsBooked } = require('../Serches/BookTickets');
 const { BookTickets } = require('./tickets');
 const Ticket = require('../models/Tickets');
+const { DomainControllerApiFetchParamCreator } = require('mailslurp-client');
 
 const validations = (req) => {
     const errors = validationResult(req);
@@ -116,88 +117,73 @@ exports.getBus = async (req, res) => {
 };
 
 // search bus
-exports.searchBus = async (req, res)=>{
+module.exports.searchBus = async (req, res)=>{
     console.log("backend part")
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    
     const { from, to, date } = req.body
     console.log(from,to,date)
     try {
-        var source = await locationSearch(to);
+        var source = await locationSearch(from);
+        console.log("to",to)
         const city = to["city"]
         const state = to["state"]
-        console.log(city,state)
-        let destination  = await Location.findOne({ $and: [{ city }, { state }] });
-        console.log("destination", destination)
-        console.log("source", source)
-
+        let destination = await Location.findOne({ $and: [{ city }, { state }] });
+        console.log(source, destination)
         if (!destination || !source) {
             console.log("Not Found")
             return res.status(400).json([]);
         }
-
-        let buses = await Bus.find({
-            $and: [{ to: destination }, { from: source }],
-        });
-        console.log("buses",buses)
+        let buses = await Bus.findOne({ $and: [{ from: source.id }, { to: destination.id }] })
         if (!buses) {
             return res.status(400).json([]);
         }
-        buses = buses.filter((bus) => {
-            if (bus.secdule.includes(date)){
-                return bus;
-            }
-        });
-        if (buses.isEmpty) {
-            return res.status(400).json([]);
+        if (buses.secdule.includes(date)){
+            return res.status(200).json(buses);
         }
-        return res.status(200).json(buses);
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: "server error" });
     }
 };
 
-exports.cancelBus = async (req, res) => {
+exports.deleteBus = async(req, res) => {
     try {
-        const busId = req.params.busId
-        const bus = Bus.findOne({ busId })
-        if (bus) {
-            return res.status(404).json({"msg":"Bus Not Found"})
+        const bus = await Bus.findById(req.params.busId)
+        const agency = await Agency.findOne({ agent: req.user.id })
+        if (!bus || !agency) {
+            return res.status(400).json({ msg: "bus not found" })
         }
 
-        const removeBus = await Bus.findOneAndRemove({ busId })
-        console.log(removeBus)
-        if (removeBus) {
-            return res.status(200).json({"msg":"Bus has been cancel"})
+        if (bus.agency.toString() !== agency._id.toString()) {
+            const deleteBus = await Bus.findOneAndDelete({ _id: req.params.busId })
+            console.log(deleteBus)
+            if (deleteBus) {
+                return res.status(200).json({ msg: "Bus deleted successfully" })
+            }
         }
-    }catch(err){
-        return res.status(500).json({"msg": "server error"})
+    } catch (err) {
+        return res.status(500).json({ msg: "server error" })
     }
 }
 
 // reset bus
 exports.resetBus = async (req, res) => {
     try {
-        const busId = req.params.busId
-        console.log(busId)
-        const bus = await Bus.findOne({ _id: busId });
-
-        if(!bus){
-            return res.status(404).json({"msg": "Bus Not Found" })
+        const bus = await Bus.findById(req.params.busId);
+        if (!bus) {
+            return res.status(400).json({ msg: "there is no such bus" });
         }
+        const result = await Ticket.deleteMany({ busId: req.params.busId})
+        console.log("result", result)
+        
+        res.status(200).json({ msg: "bus reset is done successfully" })
 
-        const deleteTickes = await Ticket.deleteMany({ busId: req.params.busId })
-        console.log(deleteTickes)
-        return res.status(200).json({ "msg": "Reset bus is Succesfully" });
-
-    }catch (err) {
-        console.log(err)
-        return res.status(500).json({"msg":"server error"})
+    } catch (err) {
+        res.status(500).json({ msg: "server error" })
     }
-}
-
+};
 

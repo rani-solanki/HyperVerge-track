@@ -3,9 +3,13 @@
 }
 
 .card-header{
-  background-color: aqua;
+  background-color: rgb(255, 60, 0);
   width: auto;
   height: inherit;
+}
+.box-size{
+  height: auto;
+  width: auto;
 }
 
 p {

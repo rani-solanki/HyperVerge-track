@@ -8,9 +8,13 @@ module.exports = function (req, res, next) {
     }
     try {
         const Result = jwt.verify(token, config.get("jwtSecret"));
-        // console.log(Result)
-        req.user = Result.admin
-        // console.log("message", req.user)
+        const data = Result.admin
+        console.log(data)
+        if (data) {
+            req.user = Result.admin
+        } else {
+            req.user = Result; 
+        }
         next();
 
     } catch (err) {

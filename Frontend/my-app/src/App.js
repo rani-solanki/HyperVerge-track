@@ -14,6 +14,7 @@ import setAuthToken from './utils/isAuthantication';
 import { loadUser } from './action/auth';
 import SearchBar from './component/layout/SearchBar';
 import Buses from './component/Buses/Bus';
+import BookTicket from './component/Buses/bookTickets';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -34,10 +35,11 @@ const App = () => {
             <Switch>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={AdminSignup} />
+              <Route exact path="/signup" component={AdminSignup}/>
               <Route exact path="/searchBar" component={SearchBar} />
               <Route exact path="/adminLogin" component={AdminLogin} />
-              <Route exact path="/buses" component={Buses} />
+              <Route exact path="/buses" component={Buses}/>
+              <Route exact path="/bookTickets" component={BookTicket}/>
             </Switch>
           </section>
         </Fragment>

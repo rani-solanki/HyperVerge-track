@@ -1,26 +1,45 @@
 import React, { Fragment, useState } from 'react';
 import '../../App.css'
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import setAlert from '../../action/aleart';
 import PropTypes from 'prop-types'
-import { searchbus } from '../../action/buses';
+import { searchbus } from '../../action/SearchBus';
 
-const SearchBar = ({ setAlert, searchbus,isAuthenticated})=>{
+const SearchBar = ({ setAlert, searchbus, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         from: "",
         to: "",
         date: " "
     });
-    
     const { from, to, date } = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-    const onSubmit = async e => {
+    let history = useHistory();
+    const onSubmit = async (e) => {
         e.preventDefault();
-        let date = new Date().getDay();
-        console.log(date)
-        searchbus({ from, to, date });
-    };
+        let today = new Date().toISOString().slice(0, 10);
+        console.log(today,formData,"hello");
+        if (date < today) {
+            alert("Invalid Date");
+            // setAlert('Invalid Date','danger')
+        } else if (to === from) {
+            alert("Please select the valid Departure and Destination");
+        } else {
+            // setting travel date in to location storage
+            localStorage.setItem('travelDate', date)
+            let day = new Date(date);
+            day = day.getDay();
+
+            const newData = {
+                to,
+                from,
+                date: day,
+            };
+            
+            searchbus(newData)
+            history.push("/buses")
+        }
+    }
     return (
         <Fragment>
             <div className="container">
@@ -54,9 +73,10 @@ const SearchBar = ({ setAlert, searchbus,isAuthenticated})=>{
                                     </div>
                                     <div className="col-lg-3 col-md-3 col-sm-12 p-0">
                                         <input type="text" className="form-control search-slt" placeholder="Enter Drop City" name='to' value={to}
-                                            onChange={e => onChange(e)} />
+                                            onChange={e => onChange(e)}/>
                                     </div>
-                                    <input type="Date" name="date" className="form-control date-style" placeholder="to" />
+                                    <input type="Date" className="form-control date-style" placeholder="date" name="date" value={date}
+                                        onChange={e => onChange(e)}/>
                                     <div className="col-lg-3 col-md-3 col-sm-12 p-0">
                                         <button type="submit" className="btn btn-danger wrn-btn">Search</button>
                                     </div>
@@ -70,14 +90,16 @@ const SearchBar = ({ setAlert, searchbus,isAuthenticated})=>{
                 </div>
             </section>
         </Fragment>
-    );
-    SearchBar.propTypes = {
-        setAlert: PropTypes.func.isRequired,
-        register: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.func.isRequired
-    }
-    const mapStateToProps = state => ({
-        isAuthenticated: state.auth.isAuthenticated
-    });
+    )
+};
+
+SearchBar.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.func.isRequired
 }
-export default connect(null, { searchbus })(SearchBar)
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { searchbus })(SearchBar)

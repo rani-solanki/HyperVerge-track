@@ -9,7 +9,7 @@ const config = require("config");
 //access  private
 const validations = (req) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty()){
         return errors
     }
     else {
@@ -52,6 +52,3 @@ exports.loginuser = async (req, res, next) => {
         return res.status(500).json('server error')
     }
 }
-
-
-

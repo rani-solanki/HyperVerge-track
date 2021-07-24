@@ -3,12 +3,12 @@ const router = express.Router();
 const { check } = require('express-validator');
 const { adminSignup } = require('../../controllers/admin');
 const locaController = require('../../controllers/location');
-const { CreateBus, getBus, resetBus, cancelBus,searchBus } = require('../../controllers/bus');
+const { CreateBus, getBus, resetBus, deleteBus} = require('../../controllers/bus');
 const isAuth = require('../../middleware/auth');
 const isAdmin = require('../../middleware/isAdmin');
 const { createAgency, getAgency } = require('../../controllers/Agency');
+const { FindBusStatus } = require('../../controllers/Status');
 const staffController = require('../../controllers/staff')
-
 
 // admin signup;
 router.post('/signup', [
@@ -19,15 +19,8 @@ router.post('/signup', [
 ],
   adminSignup);
 
-// search bus
-router.post('/admin/:busId', isAuth, [
-  check("source", 'source is reqquired'),
-  check("destination", 'destination id required'),
-  check("date", 'date is required')
-])
-
 // add location 
-router.post('/admin/location', isAuth, isAdmin,[
+router.post('/admin/location', isAuth, isAdmin, [
   check('city', 'please inclde unique and valid email').not().isEmail(),
   check('state', 'please enter the passward').not().isEmpty()
 ], locaController.location)
@@ -58,7 +51,7 @@ router.post('/admin/addStaff', [isAuth, isAdmin, [
 ]], staffController.addStaff)
 
 // Add bus
-router.post('/admin/Addbus',isAuth, isAdmin, [
+router.post('/admin/Addbus', isAuth, isAdmin, [
   check("busName", "enter the bus name").not().isEmpty(),
   check("agency", "enter the bus agency").not().isEmpty(),
   check("vehicleNo", "enter the vehicle no.").not().isEmpty(),
@@ -76,18 +69,11 @@ router.post('/admin/Addbus',isAuth, isAdmin, [
   CreateBus
 );
 
-// search bus
-router.post('/',isAuth, [
-  check('from', "from is required").not().isEmpty(),
-  check('to', "to is required").not().isEmpty(),
-  check('date', "date is required").not().isEmpty()
-], searchBus);
-
 // resetBus by delete the tickets
 router.delete('/admin/buses/:busId/resetBus', isAuth, isAdmin, resetBus);
 
 // delete bus 
-router.delete('/admin/buses/:busId/cancel', isAuth, isAdmin, cancelBus);
+router.delete('/admin/buses/:busId', isAuth, isAdmin, deleteBus);
 
 module.exports = router;
 

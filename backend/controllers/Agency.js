@@ -28,12 +28,11 @@ const createAgency = async (req, res) => {
   const { phone, agencyName, headOfficeLocation } = req.body;
   /// profile object
 
-  const agencyFields = { phone, agencyName, headOfficeLocation };
+  const agencyFields = { phone, agencyName, agent:req.user.id, headOfficeLocation };
   // agencyFields.agent = req.user.admin.id;
   
   try {
     let agencyProfile = await Agency.findOne({ agent: req.user.id});
-    console.log(agencyProfile)
     if (agencyProfile) {
       // Update needed
       agencyProfile = await Agency.findOneAndUpdate(
@@ -41,6 +40,7 @@ const createAgency = async (req, res) => {
         { $set: agencyFields },
         { new: true }
       );
+      console.log(agencyFields)
       return res.status(200).json(agencyProfile);
     }
   

@@ -4,7 +4,6 @@ const router = express.Router();
 const { check } = require('express-validator');
 const isAuth = require('../../middleware/auth');
 
-console.log(BookTickets)
 router.post("/buses/:busId/tickets", isAuth, [
     check("seats_no", "seats_no is required").not().isEmpty(),
     check("passengers", "passenger is required").not().isEmpty(),

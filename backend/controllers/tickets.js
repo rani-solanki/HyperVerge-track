@@ -58,6 +58,7 @@ const BookTickets = async (req, res, next) => {
                 return res.status(400).json({ "msg": "These seats are already book" })
             }
         }
+        console.log("id",)
         if (val === true) {
             bookTickets.userId = req.user.id
             bookTickets.busId = bus.id

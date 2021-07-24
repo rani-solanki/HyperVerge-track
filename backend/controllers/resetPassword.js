@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const apiKey = process.env.SENDGRID_KEY;
 const sendgridTransort = require("nodemailer-sendgrid-transport");
 
+
 //@route  POST api/auth/resetPassword
 //desc    reset password
 //access  private
@@ -29,6 +30,7 @@ const validations = (req) => {
 
 // forgot Password 
 exports.resetPassword = async (req, res, next) => {
+    console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors });
@@ -89,10 +91,9 @@ exports.newPassword = async (req, res, next) => {
         user.password = bcrypt.hash(newPassword, salt)
         user.resetToken = undefined
         user.expireToken = undefined
+        console.log(user)
 
-        // console.log(user)
         const savedUser = user.save();
-        console.log('$2b$10$/RTd6aAZ4fcjvzTvhAhrXevTE3IyIdlkkgyvgRjKVLSQKPabngixK' === "$2b$10$/RTd6aAZ4fcjvzTvhAhrXevTE3IyIdlkkgyvgRjKVLSQKPabngixK")
         if (savedUser) {
             return res.json({ message: "password updated success" })
         }

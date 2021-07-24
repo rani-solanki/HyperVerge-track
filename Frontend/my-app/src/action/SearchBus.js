@@ -3,9 +3,10 @@ import setAlert from './aleart';
 import setAuthToken from '../utils/isAuthantication';
 import Aleart from '../component/layout/Aleart';
 import { BUSNOT_FOUND, BUS_FOUND } from './type';
+import { loadUser } from './auth'; 
 
 // Search bus
-export const searchbus = ({ from,to, date}) => async dispatch=>{
+export const searchbus = ({ from, to, date }) => async dispatch => {
     const config = {
         headers: { "Content-Type": "application/json" }
     }
@@ -14,6 +15,7 @@ export const searchbus = ({ from,to, date}) => async dispatch=>{
 
     from = { "city": start[0], "state": start[1] }
     to = { "city": End[0], "state": End[1] }
+    console.log(to)
 
     const data = {
         "from": {
@@ -27,14 +29,23 @@ export const searchbus = ({ from,to, date}) => async dispatch=>{
         date
     }
     const body = JSON.stringify(data)
+    console.log(body)
     try {
-        const res = await axios.post('http://localhost:1900/api/users/',body, config);
-        console.log(res)
-        dispatch({
-            type: BUS_FOUND,
-            payload: res.data
-        });
+        const res = await axios.post('http://localhost:1900/api/buses/searchbus', body, config);
+        console.log("res",res)
+        if (res.data.length == 0) {
+            dispatch({
+                type: BUSNOT_FOUND,
+            })
+        }
+        else {
+            dispatch({
+                type: BUS_FOUND,
+                payload: res.data
+            })
+        }
         alert("Bus Found")
+        
     } catch (err) {
         const errors = err.response.data.err;
         if (errors) {

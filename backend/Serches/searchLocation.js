@@ -6,7 +6,6 @@ const locationSearch = async (location)=>{
     let locations = await Location.findOne({ $and: [{ city },{ state }]});
     if (locations) {
         return locations
-        console.log("end of the day")
     }
 }
 

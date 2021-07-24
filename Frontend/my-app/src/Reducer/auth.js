@@ -5,8 +5,6 @@ import {
     AUTH_ERROR,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
-    BUS_FOUND,
-    BUSNOT_FOUND,
     LOGOUT
 } from '../action/type';
 
@@ -34,21 +32,10 @@ const auth = function (state = initialState, action){
                 ...state,
                 ...payload,
                 isAuthenticated: true,
-                loading: false,
-                // user: payload
-
-            }
-        case BUS_FOUND:
-            localStorage.setItem('token', payload.token)
-            return {
-                ...state,
-                ...payload,
-                isAuthenticated: true,
                 loading: false
             }
         case REGISTER_FAIL:
         case AUTH_ERROR:
-        case BUSNOT_FOUND:
         case LOGIN_FAIL:
         case LOGOUT:
             localStorage.removeItem('token');

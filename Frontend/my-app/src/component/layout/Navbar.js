@@ -18,6 +18,8 @@ const Navbar = ({isAuthenticated,loading}) => {
             <li><Link to="/about">About</Link> </li>
             {/* <li><Link to="/signup">Admin Register </Link></li> */}
             {/* <li><Link to="/adminLogin">Login</Link></li> */}
+            <li><Link to="/searchBar">searchBar</Link></li>
+            <li><Link to="/bookTickets">BookTickets</Link></li>
             <li><Link to="/">logout</Link></li>
         </ul>
     )
