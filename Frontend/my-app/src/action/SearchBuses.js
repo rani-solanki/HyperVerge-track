@@ -1,9 +1,6 @@
 import axios from 'axios';
 import setAlert from './aleart';
-import setAuthToken from '../utils/isAuthantication';
-import Aleart from '../component/layout/Aleart';
 import { BUSNOT_FOUND, BUS_FOUND } from './type';
-import { loadUser } from './auth'; 
 
 // Search bus
 export const searchbus = ({ from, to, date }) => async dispatch => {
@@ -32,10 +29,10 @@ export const searchbus = ({ from, to, date }) => async dispatch => {
     console.log(body)
     try {
         const res = await axios.post('http://localhost:1900/api/buses/searchbus', body, config);
-        console.log("res",res)
-        if (res.data.length == 0) {
+        if (res.data.length === 0) {
             dispatch({
                 type: BUSNOT_FOUND,
+                payload: res.data
             })
         }
         else {
@@ -44,7 +41,7 @@ export const searchbus = ({ from, to, date }) => async dispatch => {
                 payload: res.data
             })
         }
-        alert("Bus Found")
+        console.log({ payload: res.data })
         
     } catch (err) {
         const errors = err.response.data.err;

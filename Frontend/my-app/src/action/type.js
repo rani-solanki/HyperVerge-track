@@ -11,4 +11,8 @@ export const BUS_FOUND = 'BUS_FOUND';
 export const BUSNOT_FOUND = ' BUSNOT_FOUND';
 export const BOOKING_SUCCESS = 'BOOKING_SUCCESS';
 export const BOOKING_FAIL = 'BOOKING_FAIL'
+export const FIND_BUSSTATUS = 'FIND_BUSSTATUS';
+export const STATUS_ERROR = 'STATUS_ERROR';
 export const LOGOUT = 'LOGOUT';
+
+

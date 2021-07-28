@@ -1,0 +1,19 @@
+.seatInp{
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    width: auto;
+}
+
+.text-center{
+    width: auto;
+    height: auto;
+}
+.seatfrm{
+    margin-block: auto;
+    width: 30%;
+    height: 20%;
+}
+.btn-primary{
+    margin-right: auto;
+}

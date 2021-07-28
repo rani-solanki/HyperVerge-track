@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from "react";
-import { Link, Redirect } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import setAlert from '../../action/aleart';
 import { adminregister } from '../../action/auth';
 import PropTypes from 'prop-types';
 
-const Signup = ({ setAlert, adminregister, isAuthenticated }) => {
+const Signup = ({ setAlert, adminregister}) => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -13,7 +13,7 @@ const Signup = ({ setAlert, adminregister, isAuthenticated }) => {
         password2: "",
         isAdmin: " "
     });
-
+    
     const { name, email, password, password2, isAdmin } = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     const onSubmit = async e => {
@@ -23,7 +23,6 @@ const Signup = ({ setAlert, adminregister, isAuthenticated }) => {
             setAlert('Passwords do not match', 'danger');
         } else {
             adminregister({ name, email, password, isAdmin });
-            return <Redirect to="/adminLogin" />
         }
     };
     return (
@@ -64,7 +63,7 @@ const Signup = ({ setAlert, adminregister, isAuthenticated }) => {
                     </div>
                     <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                     <p className="forgot-password text-left">
-                        Already registered <Link to="/adminlogin">sign in?</Link>
+                        Already registered <Link to="/adminLogin">sign in?</Link>
                     </p>
                 </form>
             </div>
@@ -72,11 +71,7 @@ const Signup = ({ setAlert, adminregister, isAuthenticated }) => {
     );
     Signup.propTypes = {
         setAlert: PropTypes.func.isRequired,
-        register: PropTypes.func.isRequired,
-        isAuthenticated:PropTypes.func.isRequired
+        register: PropTypes.func.isRequired
     }
-    const mapStateToProps = state => ({
-        isAuthenticated: state.auth.isAuthenticated
-    });
 }
 export default connect(null, { setAlert, adminregister })(Signup);

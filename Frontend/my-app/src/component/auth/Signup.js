@@ -1,11 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Link, Redirect } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import setAlert from '../../action/aleart';
 import { register } from '../../action/auth';
 import PropTypes from 'prop-types'
-
-const Register = ({ setAlert, register }) => {
+const Register = ({ setAlert, register }) =>{
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -15,7 +14,7 @@ const Register = ({ setAlert, register }) => {
 
     const { name, email, password, password2 } = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-    
+
     const onSubmit = async e => {
         e.preventDefault();
         if (password !== password2) {
@@ -25,6 +24,7 @@ const Register = ({ setAlert, register }) => {
             register({ name, email, password });
         }
     };
+    
     return (
         <Fragment>
             <div style={{
@@ -64,10 +64,11 @@ const Register = ({ setAlert, register }) => {
             </div>
         </Fragment>
     );
-    Register.propTypes = {
-        setAlert: PropTypes.func.isRequired,
-        register: PropTypes.func.isRequired
-    }
+}
+
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired
 }
 
 export default connect(null, { setAlert, register })(Register);

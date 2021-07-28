@@ -3,17 +3,20 @@ import {
     BUSNOT_FOUND,
 } from '../action/type';
 
+// console.log("lkdshfkjsg",payload)
 const initialState = {
     buses: [],
     loading: true,
     error: {},
 };
 
-const searchBuses = (state = initialState, action) => {
+const searchBus = (state = initialState, action) =>{
+    console.log("state from the bus reduser", state)
     const { type, payload } = action;
 
     switch (type) {
         case BUS_FOUND:
+            console.log({buses: payload})
             return {
                 ...state,
                 buses: payload,
@@ -26,10 +29,8 @@ const searchBuses = (state = initialState, action) => {
                 loading: false
             }
         default:
-            console.log("state from the bus reduser",state)
             return state;
             break;
     }
 }
-
-export default searchBuses;
+export default searchBus;

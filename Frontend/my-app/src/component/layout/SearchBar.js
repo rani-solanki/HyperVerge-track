@@ -4,7 +4,7 @@ import { Link, Redirect, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import setAlert from '../../action/aleart';
 import PropTypes from 'prop-types'
-import { searchbus } from '../../action/SearchBus';
+import { searchbus } from '../../action/SearchBuses';
 
 const SearchBar = ({ setAlert, searchbus, isAuthenticated }) => {
     const [formData, setFormData] = useState({
@@ -21,7 +21,6 @@ const SearchBar = ({ setAlert, searchbus, isAuthenticated }) => {
         console.log(today,formData,"hello");
         if (date < today) {
             alert("Invalid Date");
-            // setAlert('Invalid Date','danger')
         } else if (to === from) {
             alert("Please select the valid Departure and Destination");
         } else {
@@ -80,9 +79,6 @@ const SearchBar = ({ setAlert, searchbus, isAuthenticated }) => {
                                     <div className="col-lg-3 col-md-3 col-sm-12 p-0">
                                         <button type="submit" className="btn btn-danger wrn-btn">Search</button>
                                     </div>
-                                    <p className="">
-                                        view Buses <Link to="/buses">buses</Link>
-                                    </p>
                                 </div>
                             </div>
                         </div>

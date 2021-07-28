@@ -5,18 +5,22 @@ import {
     BOOKING_SUCCESS
 } from './type';
 
-export const bookSeats = id => async dispatch => {
+export const bookSeats = (busId, userData) => async dispatch=>{
     try {
         const config = {
             headers: {
                 'Content-Type': 'application/json'
             }
         }
-        const res = await axios.put('http://localhost:1900/api/user/buses/60ec20988caf65a27d0d5711/tickets')
+        
+        const body = JSON.stringify(userData)
+        const res = await axios.post(`localhost:1900/api/user/buses/${busId}/tickets`, body, config)
+        console.log("response", res)
         dispatch({
             type: BOOKING_SUCCESS,
             payload: res.data
         })
+        dispatch(setAlert("Tickets booked succesfully", "success"))
     }
     catch (err) {
         const errors = err.response.data.errors;
@@ -25,6 +29,7 @@ export const bookSeats = id => async dispatch => {
                 dispatch(setAlert(error.msg, 'danger'))
             });
         }
+        dispatch(setAlert(err.response.data.msg, "danger"))
         dispatch({
             type: BOOKING_FAIL,
         })
