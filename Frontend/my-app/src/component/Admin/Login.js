@@ -21,7 +21,7 @@ const Login = ({
         adminlogin(email, password);
     }
     if (isAuthenticated) {
-        return <Redirect to="/searchBar" />
+        return <Redirect to="/dashboardAction"/>
     }
     return (
         <Fragment>

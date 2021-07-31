@@ -10,10 +10,10 @@ export const Landing = () => {
                         Bus Ticket Booking Website
                     </p>
                     <div className="buttons">
-                    <Link to ="register" className ="btn btn-primary">sing up</Link>
-                    <Link to="login" className="btn btn-light">Login</Link>
-                    <Link to="signup" className="btn btn-primary">Admin Signup</Link>
-                    <Link to="adminLogin" className="btn btn-light"> Admin Login</Link>
+                    <Link to ="register" className ="btn btn-primary">User</Link>
+                        {/* <Link to="login" className="btn btn-primary">user</Link> */}
+                    <Link to="signup" className="btn btn-primary">Admin</Link>
+                        {/* <Link to="adminLogin" className="btn btn-primary"> Admin </Link> */}
                     </div>
                 </div>
             </div>

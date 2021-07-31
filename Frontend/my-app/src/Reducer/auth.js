@@ -1,3 +1,4 @@
+import { logout } from '../action/auth';
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
@@ -38,6 +39,7 @@ const auth = function (state = initialState, action){
         case AUTH_ERROR:
         case LOGIN_FAIL:
         case LOGOUT:
+            console.log("logout from the action")
             localStorage.removeItem('token');
             return {
                 ...state,

@@ -8,7 +8,9 @@ const Buses = ({ searchBus: { buses, loading } })=>{
     return (
         <Fragment>
             {buses.length === 0 ? (
-                <BusNotFound />
+                <h1>
+                    Bus Not Found
+                </h1>
             ) : (
                 <Fragment>
                     <div class="card-header">

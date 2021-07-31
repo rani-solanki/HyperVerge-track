@@ -14,5 +14,12 @@ export const BOOKING_FAIL = 'BOOKING_FAIL'
 export const FIND_BUSSTATUS = 'FIND_BUSSTATUS';
 export const STATUS_ERROR = 'STATUS_ERROR';
 export const LOGOUT = 'LOGOUT';
-
+export const ADD_AGENCY = ' ADD_AGENCY'; 
+export const ADD_AGENCY_FAIL = 'ADD_AGENCY_FAIL';
+export const ADD_STAFF = 'ADD_STAFF';
+export const ADD_STAFF_FAIL = 'ADD_STAFF_FAIL';
+export const ADD_LOCATION = 'ADD_LOCATION';
+export const ADD_LOCATION_FAIL = 'ADD_LOCATION_FAIL';
+export const ADD_BUS = 'ADD_BUS';
+export const ADD_BUS_FAILED = 'ADD_BUS_FAILED';
 

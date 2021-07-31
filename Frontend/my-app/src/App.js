@@ -15,13 +15,18 @@ import { loadUser } from './action/auth';
 import SearchBar from './component/layout/SearchBar';
 import Buses from './component/Buses/Bus';
 import BookTicket from './component/Buses/bookTickets';
-import PassengerDetail from './component/Buses/passangerDetails'; 
+import About from './component/About/about';
+import AddAgency from './component/AdminDatabase/Addagency';
+import AddBusStaff from './component/AdminDatabase/Addstaff';
+import AddLocation from './component/AdminDatabase/AddLocation'; 
+import AddBus from './component/AdminDatabase/AddBus';
+import dashboardAction from './component/AdminDatabase/Dashbord';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-const App = () => {
+const App =()=>{
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
@@ -34,14 +39,19 @@ const App = () => {
           <Route exact path="/" component={Landing} />
           <section className="container">
             <Switch>
-              <Route exact path="/register" component={Register}/>
-              <Route exact path="/login" component={Login}/>
-              <Route exact path="/signup" component={AdminSignup}/>
-              <Route exact path="/searchBar" component={SearchBar}/>
-              <Route exact path="/adminLogin" component={AdminLogin}/>
-              <Route exact path="/buses" component={Buses}/>
-              <Route exact path='/bus/:busId/bookTickets' component={BookTicket}/>
-              <Route exact path='/passengerForm' component={PassengerDetail}/>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={AdminSignup} />
+              <Route exact path="/searchBar" component={SearchBar} />
+              <Route exact path="/adminLogin" component={AdminLogin} />
+              <Route exact path="/buses" component={Buses} />
+              <Route exact path='/bus/:busId/bookTickets' component={BookTicket} />
+              <Route exact path='/about' component={About} />
+              <Route exact path='/addAgency' component={AddAgency} />
+              <Route exact path='/addStaff' component={AddBusStaff} />
+              <Route exact path='/addLocation' component={AddLocation} />
+              <Route exact path='/addBus' component={AddBus} />
+              <Route exact path='/dashboardAction' component={dashboardAction}/>
             </Switch>
           </section>
         </Fragment>

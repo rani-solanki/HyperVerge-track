@@ -40,13 +40,6 @@ const Login = ({ login, isAuthenticated }) =>{
                         <input type="password" className="form-control" placeholder="Enter password" name='password' value={password}
                             onChange={e => onChange(e)} />
                     </div>
-
-                    {/* <div className="form-group" >
-                        <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                            <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-                        </div>
-                    </div> */}
                     <button type="submit" className="btn btn-primary btn-block ">Submit</button>
                     <p className="forgot-password text-right">
                         Forgot <Link to="#">password?</Link>

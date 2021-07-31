@@ -11,12 +11,10 @@ const initialState = {
 };
 
 const searchBus = (state = initialState, action) =>{
-    console.log("state from the bus reduser", state)
     const { type, payload } = action;
 
     switch (type) {
         case BUS_FOUND:
-            console.log({buses: payload})
             return {
                 ...state,
                 buses: payload,

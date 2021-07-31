@@ -15,19 +15,16 @@ import {
 
 // // LOAD USER
 export const loadUser = () => async dispatch => {
-    // console.log(localStorage.token)
     if (localStorage.token) {
         setAuthToken(localStorage.token);
     }
     try {
         const res = await axios.get('http://localhost:1900/api/auth/Auth');
-        console.log(res)
         dispatch({
             type: USER_LOADED,
             payload: res.data
         });
     } catch (err) {
-        console.log("louduser err",err)
         dispatch({
             type: AUTH_ERROR
         });
@@ -148,7 +145,7 @@ export const adminlogin = (email, password) => async dispatch => {
     }
 };
 
-export const logout = () => dispatch => {
+export const logout = () => dispatch=>{
     dispatch({ type: LOGOUT });
 }
 

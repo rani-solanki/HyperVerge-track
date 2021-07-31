@@ -23,8 +23,7 @@ const Register = ({ setAlert, register }) =>{
         } else {
             register({ name, email, password });
         }
-    };
-    
+    };   
     return (
         <Fragment>
             <div style={{
@@ -38,9 +37,9 @@ const Register = ({ setAlert, register }) =>{
                     <div className="form-group">
                         <label>User name</label>
                         <input type="text" className="form-control" placeholder="User name" name='name' value={name}
-                            onChange={e => onChange(e)} />
+                            onChange={e => onChange(e)}/>
                     </div>
-
+                    
                     <div className="form-group">
                         <label>Email address</label>
                         <input type="email" className="form-control" placeholder="Enter email" name='email' value={email}

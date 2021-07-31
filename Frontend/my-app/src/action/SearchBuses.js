@@ -12,7 +12,6 @@ export const searchbus = ({ from, to, date }) => async dispatch => {
 
     from = { "city": start[0], "state": start[1] }
     to = { "city": End[0], "state": End[1] }
-    console.log(to)
 
     const data = {
         "from": {
@@ -26,7 +25,6 @@ export const searchbus = ({ from, to, date }) => async dispatch => {
         date
     }
     const body = JSON.stringify(data)
-    console.log(body)
     try {
         const res = await axios.post('http://localhost:1900/api/buses/searchbus', body, config);
         if (res.data.length === 0) {

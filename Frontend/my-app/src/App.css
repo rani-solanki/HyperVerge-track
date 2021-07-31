@@ -894,3 +894,8 @@ ol {
 .page-login{
   margin-top: 30px;
 }
+
+.btn btn-outline-success{
+  background-color: blue;
+}
+
