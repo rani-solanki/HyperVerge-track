@@ -476,7 +476,7 @@ body, html, .App, #root, .auth-wrapper {
 ul {list-style-type: none;}
 body {
   font-family: Verdana, sans-serif;
-    background: url('./image/newBus.jpeg') no-repeat center center/cover;
+    /* background: url('./image/newBus.jpeg') no-repeat center center/cover; */
 }
 
 /* Month header */

@@ -26,11 +26,11 @@ export const bookSeats = (busId, userData) => async dispatch =>{
     catch(err){
         const errors = err.response.data.errors;
         if (errors) {
-            errors.forEach(error => {
-                dispatch(alert(error.msg, 'danger'))
-            });
+            alert("")
+            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }
-        dispatch(setAlert(err.response.data.msg, "danger"))
+        
+       dispatch(alert("This Seat Not Found"))
         dispatch({
             type: BOOKING_FAIL,
         })
