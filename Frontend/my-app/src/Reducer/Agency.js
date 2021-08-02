@@ -8,7 +8,7 @@ const initialState = {
     loading: true
 };
 
-const Agency = (state = initialState, action)=>{
+const tickets = (state = initialState, action)=>{
     const { type, payload } = action;
     switch (type) {
         case ADD_AGENCY:
@@ -27,4 +27,4 @@ const Agency = (state = initialState, action)=>{
     }
 }
 
-export default Agency
+export default tickets;

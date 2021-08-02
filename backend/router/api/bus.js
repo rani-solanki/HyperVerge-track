@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
 const isAuth = require('../../middleware/auth');
+const { BookTickets } = require('../../controllers/tickets');
 
 // get the bus ;
 router.get("/:busId", isAuth, getBus, (req, res) => { })
@@ -18,4 +19,12 @@ router.post('/searchbus', isAuth, [
     check('date', "date is required").not().isEmpty()
 ], searchBus);
 
+router.post("/:busId/tickets", isAuth, [
+    check("seats_no", "seats_no is required").not().isEmpty(),
+    check("passengers", "passenger is required").not().isEmpty(),
+    check("email", "email is required").not().isEmpty(),
+    check("phoneNo", "phone is required").not().isEmpty(),
+    check("journeyDate", "epartureDate is required").not().isEmpty()
+
+], BookTickets);
 module.exports = router;

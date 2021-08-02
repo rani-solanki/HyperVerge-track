@@ -8,7 +8,7 @@ const addLocation = ({ city, state }) => async dispatch => {
             'Content-Type': 'application/json'
         }
     };
-
+    
     const body = JSON.stringify({ city, state });
 
     try {

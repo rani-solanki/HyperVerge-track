@@ -25,7 +25,7 @@ exports.location = async (req, res) => {
             state,
         });
         await location.save();
-        res.status(200).json({ msg: "Location Added Succesfully!!" })
+        res.status(200).json(location)
     } catch (err) {
         console.error(err);
         res.status(500).send("server error");

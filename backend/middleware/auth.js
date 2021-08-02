@@ -9,7 +9,6 @@ module.exports = function (req, res, next) {
     try {
         const Result = jwt.verify(token, config.get("jwtSecret"));
         const data = Result.admin
-        console.log(data)
         if (data) {
             req.user = Result.admin
         } else {

@@ -22,4 +22,7 @@ export const ADD_LOCATION = 'ADD_LOCATION';
 export const ADD_LOCATION_FAIL = 'ADD_LOCATION_FAIL';
 export const ADD_BUS = 'ADD_BUS';
 export const ADD_BUS_FAILED = 'ADD_BUS_FAILED';
-
+export const CANCEL_TICKET = "CANCEL_TICKET";
+export const CANNOT_CANCEL = "CANNOT_CANCEL";
+export const TICKETS = "TICKETS";
+export const NO_TICKETS = "NO_TICKETS";

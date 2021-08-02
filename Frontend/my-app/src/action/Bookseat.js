@@ -13,7 +13,6 @@ export const bookSeats = (busId, userData) => async dispatch =>{
             }
         }
         const body = JSON.stringify(userData)
-        console.log(body)
         const res = await axios.post(`/api/buses/${busId}/tickets`, body, config)
         console.log(res.data)
         

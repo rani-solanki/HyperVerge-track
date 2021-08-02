@@ -22,7 +22,6 @@ const validations = (req) => {
 }
 
 exports.CreateBus = async (req, res, next)=>{
-    console.log("sajdgbh")
     const error = validations(req)
     console.log(error)
     try {
@@ -65,13 +64,13 @@ exports.CreateBus = async (req, res, next)=>{
         }
 
         // add location 
+        console.log("from the backend",from,to)
         let formLocation = await locationSearch(from);
-        console.log("formLocation",formLocation)
+        
         if (!formLocation) { return res.status(404).json({ msg: "No such location found" }) }
         busDetails.from = formLocation._id;
 
         let toLocation = await locationSearch(to);
-        console.log("toLocation",toLocation)
         if (!toLocation) { return res.status(404).json({ msg: "No such location found" }) }
         busDetails.to = toLocation._id;
 
@@ -84,10 +83,11 @@ exports.CreateBus = async (req, res, next)=>{
 
         // Add staff 
         const staff = await Staff.findOne({ phone: busStaff })
-        console.log(staff)
+        console.log("staff",staff)
         if (!staff) {
             return res.status(404).json({ msg: "staff Not Found" })
         }
+        
         busDetails.busStaff = staff.id
         const bus = new Bus(busDetails)
         const newbus = await bus.save()
@@ -107,6 +107,7 @@ exports.getBus = async (req, res) => {
     try {
         const bus = await Bus.findById(req.params.busId);
 
+        
         if (!bus) {
             return res.status(404).json({ msg: "Bus NOt Found" });
         }
@@ -118,32 +119,35 @@ exports.getBus = async (req, res) => {
 
 // search bus
 module.exports.searchBus = async (req, res)=>{
-    console.log("backend part")
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
     const { from, to, date } = req.body
-    console.log(from,to,date)
     try {
         var source = await locationSearch(from);
-        console.log("to",to)
         const city = to["city"]
         const state = to["state"]
         let destination = await Location.findOne({ $and: [{ city }, { state }] });
-        console.log(source, destination)
         if (!destination || !source) {
-            console.log("Not Found")
             return res.status(400).json([]);
         }
-        let buses = await Bus.findOne({ $and: [{ from: source.id }, { to: destination.id }] })
-        if (!buses) {
+        let buses = await Bus.find({ $and: [{ from: source.id }, { to: destination.id }] })
+        if (buses.length === 0) {
             return res.status(400).json([]);
         }
-        if (buses.secdule.includes(date)){
-            return res.status(200).json(buses);
+        var Buses = []
+        for (var bus of buses) {
+            if (bus.secdule.includes(date)) {
+                Buses.push(bus)
+            }
         }
-
+        if (Buses.length === 0) {
+            return res.status(404).send("Bus Not Found")
+            
+        }
+        return res.status(200).json(Buses);
+        
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: "server error" });
@@ -160,7 +164,6 @@ exports.deleteBus = async(req, res) => {
 
         if (bus.agency.toString() !== agency._id.toString()) {
             const deleteBus = await Bus.findOneAndDelete({ _id: req.params.busId })
-            console.log(deleteBus)
             if (deleteBus) {
                 return res.status(200).json({ msg: "Bus deleted successfully" })
             }
@@ -178,8 +181,6 @@ exports.resetBus = async (req, res) => {
             return res.status(400).json({ msg: "there is no such bus" });
         }
         const result = await Ticket.deleteMany({ busId: req.params.busId})
-        console.log("result", result)
-        
         res.status(200).json({ msg: "bus reset is done successfully" })
 
     } catch (err) {

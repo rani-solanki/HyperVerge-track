@@ -21,8 +21,9 @@ import AddBusStaff from './component/AdminDatabase/Addstaff';
 import AddLocation from './component/AdminDatabase/AddLocation'; 
 import AddBus from './component/AdminDatabase/AddBus';
 import dashboardAction from './component/AdminDatabase/Dashbord';
+import Tickets from './component/Tickets/Tickets';
 
-if (localStorage.token) {
+if (localStorage.token){
   setAuthToken(localStorage.token);
 }
 
@@ -47,11 +48,12 @@ const App =()=>{
               <Route exact path="/buses" component={Buses} />
               <Route exact path='/bus/:busId/bookTickets' component={BookTicket} />
               <Route exact path='/about' component={About} />
-              <Route exact path='/addAgency' component={AddAgency} />
-              <Route exact path='/addStaff' component={AddBusStaff} />
-              <Route exact path='/addLocation' component={AddLocation} />
-              <Route exact path='/addBus' component={AddBus} />
+              <Route exact path='/addAgency' component={AddAgency}/>
+              <Route exact path='/addStaff' component={AddBusStaff}/>
+              <Route exact path='/addLocation' component={AddLocation}/>
+              <Route exact path='/addBus' component={AddBus}/>
               <Route exact path='/dashboardAction' component={dashboardAction}/>
+              <Route exact path ='/tickets' component={Tickets}/>
             </Switch>
           </section>
         </Fragment>

@@ -15,14 +15,12 @@ const authRoutes = require('./router/api/auth');
 const AdminRoutes = require('./router/api/admin');
 const adminAuthRoutes = require('./router/api/adminAuth');
 const busRoutes = require('./router/api/bus');
-const ticketRoutes = require('./router/api/tickets');
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admins', AdminRoutes);
 app.use('/api/adminauth', adminAuthRoutes);
 app.use('/api/buses', busRoutes);
-app.use('/api/user', ticketRoutes);
 
 app.use(errorhandler);
 app.use((err, req, res, next) => {

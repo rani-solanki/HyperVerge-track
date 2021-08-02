@@ -9,8 +9,7 @@ const FindBusStatus = async (req, res) => {
         }
         const seats = bus.seats;
         let BookedSeats = await ticketsBooked(req.params.busId);
-        console.log(BookedSeats)
-
+        
         let ticketsStatus = {};
         for (let index = 0; index < seats.length; index++) {
             for (let Pointer = 0; Pointer < seats[index].length; Pointer++){

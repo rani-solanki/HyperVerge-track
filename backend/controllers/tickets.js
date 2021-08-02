@@ -2,7 +2,6 @@ const Ticket = require('../models/Tickets');
 const Bus = require('../models/busSchema');
 const { ticketsBooked } = require('../Serches/BookTickets');
 const { validationResult } = require('express-validator');
-const Tickets = require('../models/Tickets');
 
 const validations = (req) => {
     const errors = validationResult(req);
@@ -15,7 +14,6 @@ const validations = (req) => {
 }
 const BookTickets = async (req, res, next) => {
     const error = validations(req)
-    console.log(error)
     if (error) {
         return next({
             status: 400,
@@ -24,16 +22,16 @@ const BookTickets = async (req, res, next) => {
     }
 
     try {
-        const { seats_no, passengers, phoneNo, departureDate, email, } = req.body;
-        const bookTickets = {
+        const { seats_no, passengers, phoneNo, journeyDate, email, } = req.body;
+        const bookTickets={
             seats_no,
             passengers,
             phoneNo,
             email,
-            departureDate
+            journeyDate
         };
+
         const bus = await Bus.findById(req.params.busId);
-        console.log(bus)
         if (!bus) {
             return res.status(400).json({ msg: "Bus NOt Found" });
         }
@@ -58,7 +56,6 @@ const BookTickets = async (req, res, next) => {
                 return res.status(400).json({ "msg": "These seats are already book" })
             }
         }
-        console.log("id",)
         if (val === true) {
             bookTickets.userId = req.user.id
             bookTickets.busId = bus.id
@@ -73,7 +70,7 @@ const BookTickets = async (req, res, next) => {
 }
 
 // get the tickets 
-const getTickets = (req, res) => {
+const getTickets = (req, res)=>{
     const _id = req.params.id
     const busId = req.params.busId
     const bus = Bus.findOne({ busId })
@@ -91,15 +88,9 @@ const getTickets = (req, res) => {
 
 // const cancel tickets
 const cancelTickets = async (req, res) => {
+    console.log("Cancel the tickets")
     const _id = req.params._id
-    const busId = req.params.busId
 
-    // search bus
-    const bus = await Bus.findById(busId)
-    console.log(bus)
-    if (!bus) {
-        return res.status(404).json({ 'msg': "Bus Not Found" })
-    }
     // search tickets
     const ticket = await Ticket.findOne({ _id })
     if (!ticket) {
@@ -111,4 +102,15 @@ const cancelTickets = async (req, res) => {
     return res.status(200).json({"msg":"Tickets has been removed"})
 }
 
-module.exports = { BookTickets, getTickets, cancelTickets };
+
+// get Booked Tikets
+const GetTickets = async (req, res, next) =>{
+    const tickets = await Ticket.find({ _id: req.user.id });
+    if (!tickets.length) {
+        return next({ status: 400, errors: "You have not booked any ticket" });
+    }
+    console.log(tickets);
+    res.status(200).json({ tickets: tickets });
+};
+
+module.exports = { BookTickets, getTickets, cancelTickets, GetTickets };

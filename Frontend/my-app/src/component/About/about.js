@@ -61,68 +61,58 @@ const About = () => {
                                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic est
                                     quis et iure tempora minima similique amet cum commodi id rerum,
                                     in non doloremque veniam accusamus distinctio, at animi ea
-
                                 </p>
                             </div>
                             <button className="btn btn-primary">Check it out!</button>
                         </div>
                     </section>
                     <section className="services">
-                        <div className="container text-center py-5">
-                            <h1>About our services</h1>
-
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <i className="fa fa-bar-chart myicon"></i>
-                                            <h1>Best Explanation</h1>
-                                            <p>
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                Reprehenderit in molestias similique et, perferendis, officiis
-                                                labore harum sequi deleniti itaque rem ea? Labore repellat
-                                                doloribus, beatae perferendis placeat recusandae nam!
-                                            </p>
+                        <div style={{
+                            background:"white"
+                        }}>
+                            <div className="container text-center py-5">
+                                <h1>About our services</h1>
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <i className="fa fa-bar-chart myicon"></i>
+                                                <h1>Best Explanation</h1>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                    Reprehenderit in molestias similique et, perferendis, officiis
+                                                    labore harum sequi deleniti itaque rem ea? Labore repellat
+                                                    doloribus, beatae perferendis placeat recusandae nam!
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <i className="fa fa-bell-o myicon"></i>
-                                            <h1>Best Explanation</h1>
-                                            <p>
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                Reprehenderit in molestias similique et, perferendis, officiis
-                                                labore harum sequi deleniti itaque rem ea? Labore repellat
-                                                doloribus, beatae perferendis placeat recusandae nam!
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <i className="fa fa-braille myicon"></i>
-                                            <h1>Best Explanation</h1>
-                                            <p>
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                Reprehenderit in molestias similique et, perferendis, officiis
-                                                labore harum sequi deleniti itaque rem ea? Labore repellat
-                                                doloribus, beatae perferendis placeat recusandae nam!
-                                            </p>
+                                    <div className="col">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <i className="fa fa-braille myicon"></i>
+                                                <h1>Best Explanation</h1>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                    Reprehenderit in molestias similique et, perferendis, officiis
+                                                    labore harum sequi deleniti itaque rem ea? Labore repellat
+                                                    doloribus, beatae perferendis placeat recusandae nam!
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                       
                     </section>
                 </div>
             </div>
-            <div style={{
-               background:"skyblue"
-            }}>
+
             <section className="message py-5">
+                <div style={{
+                    background: "White"
+                }}>
                 <div className="container text-center">
                     <h1>Register and start !!</h1>
                     <p>
@@ -131,10 +121,14 @@ const About = () => {
                         in non doloremque veniam accusamus distinctio, at animi
                     </p>
                     <button className="btn btn-primary">Register</button>
+                    </div>
                 </div>
             </section>
 
             <section className="message py-5">
+                <div style={{
+                    background: "light"
+                }}>
                 <div className="container text-center">
                     <h1>Let's Get In Touch!</h1>
                     <p>
@@ -143,11 +137,11 @@ const About = () => {
                     </p>
                     <i className="fa fa-phone myicon text-warning"></i>
                     <i className="fa fa-heart myicon text-danger"></i>
-                    <p>+919670826753</p>
-                    <p>baljeetsinghsomvanshi8745@gmail.com</p>
+                    <p>+917772074692</p>
+                    <p>ranisolanki044@gmail.com</p>
+                    </div>
                 </div>
                 </section>
-            </div>
             <div style={{
                 background: "pink"
             }}>
@@ -157,13 +151,13 @@ const About = () => {
                     <div className="container">
 
                         <div className="col-md-12">
-                            <p>https://www.facebook.com/baljeetverse</p>
+                            <p>https://www.facebook.com/Ranisolanki</p>
 
-                            <p>https://www.instagram.com/baljeetverse</p>
+                            <p>https://www.instagram.com/Ranisolanki</p>
 
-                            <p>https://www.google.com/baljeetverse</p>
+                            <p>https://www.google.com/Ranisolanki</p>
 
-                            <p>https://www.twitter.com/baljeetverse</p>
+                            <p>https://www.twitter.com/Ranisolanki</p>
 
                         </div>
                     </div>

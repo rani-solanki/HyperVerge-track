@@ -22,7 +22,7 @@ const ticketSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    departureDate: {
+    journeyDate: {
         type: Date,
         required: true
     },

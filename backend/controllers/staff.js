@@ -28,16 +28,16 @@ exports.addStaff = async (req, res, next) => {
         address,
         isDriver
     };
-
+    
     // add adminid in staff
     newstaff.adminId = req.user.id;
     try {
 
         let staff = await Staffs.findOne({ phone });
         if (staff) {
-            return res.json({ "msg": "staff is already exit" });
+            return res.status(400).json({ "msg": "staff is already exit" });
         }
-        
+
         // add staff 
         staff = new Staffs(newstaff)
         console.log(staff)

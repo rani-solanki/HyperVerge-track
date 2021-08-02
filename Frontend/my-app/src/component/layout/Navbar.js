@@ -14,6 +14,7 @@ const Navbar = ({isAuthenticated,loading}) => {
         <ul>
             <li><Link to="/about">About</Link> </li>
             <li><Link to="/">logout</Link></li>
+            <li><Link to="/tickets">My Booking</Link></li>
         </ul>
     )
     return (

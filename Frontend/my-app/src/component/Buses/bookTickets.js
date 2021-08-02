@@ -9,7 +9,7 @@ const BookTicket = ({ bookSeats, buses, match, busStatus: { loading, status }, g
     useEffect(() => {
         getBusStatus(match.params.busId);
     }, getBusStatus[match.params.busId]);
-    
+
     const [name, setName] = useState([]);
     const [email, setEmail] = useState([]);
     const [phone, setPhone] = useState([]);
@@ -90,7 +90,7 @@ const BookTicket = ({ bookSeats, buses, match, busStatus: { loading, status }, g
             passengers,
             journeyDate: travelDate,
             email,
-            phoneNo:phone
+            phoneNo: phone
         }
 
         bookSeats(match.params.busId, userData)
@@ -102,7 +102,7 @@ const BookTicket = ({ bookSeats, buses, match, busStatus: { loading, status }, g
     }
     return (
         <div className="col-12">
-            <div class="col-md-6 mb-3">
+            <div class="col-6">
                 <div className="form-group row">
                     {/* <div className="row"></div> */}
                     <div className="col">
@@ -323,74 +323,79 @@ const BookTicket = ({ bookSeats, buses, match, busStatus: { loading, status }, g
                             </form>
                         </div>
                         <div className="col">
-                            {(isok) ?
-                                (<Fragment>
-                                    <form className="form seatfrm ">
-                                        <p className="text-capitalize text-center">Seat No</p>
-                                        <input
-                                            className="form-control seatInp"
-                                            type="String"
-                                            name="passenger-Name"
-                                            placeholder="Enter Name"
-                                            onChange={(e) => PassengerName(e)}
-                                        />
-                                        <br></br>
-                                        <input
-                                            className="form-control seatInp"
-                                            type="int"
-                                            name="passenger-age"
-                                            placeholder="Enter Age "
-                                            onChange={(e) => PassengerAge(e)}
-                                        />
-                                        <br></br>
-                                        <input
-                                            className="form-control seatInp"
-                                            type="int"
-                                            name="passenger-PhoneNumber"
-                                            placeholder="Enter Phone Number"
-                                            onChange={(e) => PassengerPhone(e)}
-                                        />
-                                        <input
-                                            className="form-control seatInp"
-                                            type="String"
-                                            name="passenger-email"
-                                            placeholder="Enter email"
-                                            onChange={(e) => PassengerEmail(e)}
-                                        />
-                                        <div className="form-check form-check-inline">
-                                            <input
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="gender"
-                                                id="male"
-                                                onChange={(e) => Gender(e)}
-                                            />
-                                            <label className="form-check-label" for="male">
-                                                Male
-                                            </label>
+                            {
+                                (isok) ?
+                                    (<Fragment><div className="col">
+                                        <div className="overflow-auto forms_sec border">
+                                            {seatNumber.map(Seats => (
+                                                <Fragment>
+                                                    <form className="form seatfrm ">
+                                                        <p className="text-capitalize text-center">Seat No {Seats}</p>
+
+                                                        <input
+                                                            className="form-control seatInp"
+                                                            type="String"
+                                                            name="passenger-Name"
+                                                            placeholder="Enter Name"
+                                                            onChange={(e) => PassengerName(e)}
+                                                        />
+                                                        <br></br>
+                                                        <input
+                                                            className="form-control seatInp"
+                                                            type="int"
+                                                            name="passenger-age"
+                                                            placeholder="Enter Age "
+                                                            onChange={(e) => PassengerAge(e)}
+                                                        />
+                                                        <br></br>
+                                                        <input
+                                                            className="form-control seatInp"
+                                                            type="int"
+                                                            name="passenger-PhoneNumber"
+                                                            placeholder="Enter Phone Number"
+                                                            onChange={(e) => PassengerPhone(e)}
+                                                        />
+                                                        <input
+                                                            className="form-control seatInp"
+                                                            type="String"
+                                                            name="passenger-email"
+                                                            placeholder="Enter email"
+                                                            onChange={(e) => PassengerEmail(e)}
+                                                        />
+                                                        <div className="form-check form-check-inline">
+                                                            <input
+                                                                className="form-check-input"
+                                                                type="radio"
+                                                                name="gender"
+                                                                id="male"
+                                                                onChange={(e) => Gender(e)}
+                                                            />
+                                                            <label className="form-check-label" for="male">
+                                                                Male
+                                                            </label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input
+                                                                className="form-check-input"
+                                                                type="radio"
+                                                                name="gender"
+                                                                id="female"
+                                                                onChange={(e) => Gender(e)}
+                                                            />
+                                                            <label className="form-check-label" htmlFor="female">
+                                                                Female
+                                                            </label>
+                                                        </div>
+                                                    </form>
+                                                </Fragment>
+                                            ))}
+                                            <div className="text-center">
+                                                <button className="btn btn-primary mt-3" type="submit" onClick={(e) => SubmitDetails(e)}>Book tickets</button>
+                                            </div>
                                         </div>
-                                        <div className="form-check form-check-inline">
-                                            <input
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="gender"
-                                                id="female"
-                                                onChange={(e) => Gender(e)}
-                                            />
-                                            <label className="form-check-label" htmlFor="female">
-                                                Female
-                                            </label>
-                                        </div>
-                                    </form>
-                                    <div className="text-center">
-                                        <button className="btn btn-primary mt-3"
-                                            type="submit"
-                                            onClick={(e) => SubmitDetails(e)}>
-                                            Book Tickets
-                                        </button>
                                     </div>
-                                </Fragment>
-                            ) : <div> </div>
+                                    </Fragment>
+                                    ) : <div> </div>
                             }
                             )
                         </div>
