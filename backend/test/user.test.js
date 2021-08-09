@@ -36,8 +36,8 @@ describe("Test with user sign up", () => {
 })
 
 // usersign 
-describe("Test with user login", () => {
-    it('it should be user signin', async () => {
+describe("Test with user login", ()=>{
+    it('it should be user signin', async()=>{
         let req = {
             body: {
                 "email": "rani19@navgurukul.org",

@@ -15,7 +15,7 @@ router.post('/signup',
     userSignupController.userSignup,
     async (req, res) => {
     })
-    
+            
 module.exports = router;
 
 

@@ -47,7 +47,9 @@ router.post(
     }
 )
 
-router.get("/tickets", isAuth, GetTickets)
+// console.log("auth",GetTickets)
+router.get("/tickets/ticket", isAuth, GetTickets)
 router.delete("/tickets/ticket/_id", isAuth, cancelTickets)
 
 module.exports = router;
+

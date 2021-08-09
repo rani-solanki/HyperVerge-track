@@ -34,7 +34,7 @@ const ticketSchema = new mongoose.Schema({
     },
     busId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'buses',
+        ref: 'Buses',
         require: true,
     }
     },

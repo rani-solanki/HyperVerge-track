@@ -22,15 +22,19 @@ app.use('/api/admins', AdminRoutes);
 app.use('/api/adminauth', adminAuthRoutes);
 app.use('/api/buses', busRoutes);
 
+var PORT = process.env.PORT || 1900;
+
 app.use(errorhandler);
 app.use((err, req, res, next) => {
     console.log(err)
     return res.status(err.status).json(err)
 })         
+if (process.env.NODE_ENV == "production") {
+    app.use(express.static("Frontend/build"))
+}
 
-var port = process.env.PORT || 1900;
-app.listen(port, function () {
-    console.log('Example app listening on port ' + port + '!');
+app.listen(PORT, function () {
+    console.log('Example app listening on port ' + PORT + '!');
 });
 
 module.exports = app

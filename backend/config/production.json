@@ -1,0 +1,4 @@
+{
+    "mongoURL": "mongodb+srv://Rani19Solanki:Rani12@@devcluster1.vgbll.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
+}

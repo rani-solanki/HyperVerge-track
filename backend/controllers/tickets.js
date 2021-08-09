@@ -20,7 +20,7 @@ const BookTickets = async (req, res, next) => {
             error: "validation error"
         })
     }
-
+    
     try {
         const { seats_no, passengers, phoneNo, journeyDate, email, } = req.body;
         const bookTickets={
@@ -36,14 +36,16 @@ const BookTickets = async (req, res, next) => {
             return res.status(400).json({ msg: "Bus NOt Found" });
         }
         const BookedSeats = await ticketsBooked(req.params.busId);
-
+    
         // Not available seats 
         let seats = bus.seats;
         const selected_seats = seats_no
         isBooked = seats_no.filter((bookedSeat) => {
             return BookedSeats.includes(bookedSeat);
         })
+        
         var val = false
+        console.log(seats,selected_seats)
         for (let index = 0; index < selected_seats.length; index++) {
             if (seats[index].includes(selected_seats[index])) {
                 val = true
@@ -57,33 +59,17 @@ const BookTickets = async (req, res, next) => {
             }
         }
         if (val === true) {
-            bookTickets.userId = req.user.id
+            bookTickets.userId = req.user.user.id
             bookTickets.busId = bus.id
             const Tickets = new Ticket(bookTickets);
+            console.log(Tickets)
             await Tickets.save();
             return res.status(200).json(bookTickets);
         }
     }catch(err) {
         console.log(err);
-        return next({ status: 400, error: "server error" })
+        return next({ status: 500, error: "server error" })
     }
-}
-
-// get the tickets 
-const getTickets = (req, res)=>{
-    const _id = req.params.id
-    const busId = req.params.busId
-    const bus = Bus.findOne({ busId })
-    if (!bus) {
-        return res.status(404).json({'msg':"Bus Not Found"})
-    }
-
-    const ticket = Ticket.findOne({ _id })
-    if (!ticket.isEmpty()) {
-        return res.status(404).json({ 'msg': "Bus Not Found" })
-    }
-    
-    return res.status(200).json(ticket)
 }
 
 // const cancel tickets
@@ -96,21 +82,22 @@ const cancelTickets = async (req, res) => {
     if (!ticket) {
         return res.status(404).json({ 'msg': "Ticket Not Found" })
     }
-
+    
     // remove tickets
     const remove = await Ticket.findOneAndRemove({ _id })
     return res.status(200).json({"msg":"Tickets has been removed"})
 }
 
-
 // get Booked Tikets
-const GetTickets = async (req, res, next) =>{
-    const tickets = await Ticket.find({ _id: req.user.id });
+const GetTickets = async (req, res, next) => {
+    const tickets = await Ticket.find({ userId: req.user.user.id }).populate('busId');
+    console.log()
     if (!tickets.length) {
         return next({ status: 400, errors: "You have not booked any ticket" });
     }
+    
     console.log(tickets);
-    res.status(200).json({ tickets: tickets });
+    res.status(200).json(tickets);
 };
 
-module.exports = { BookTickets, getTickets, cancelTickets, GetTickets };
+module.exports = { BookTickets,cancelTickets, GetTickets };
